@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>AspNetCore.Mvc.Routing.Localization</AssemblyName>
+    <RootNamespace>AspNetCore.Mvc.Routing.Localization</RootNamespace>
+    <Authors>Tomas Jurasek</Authors>
+    <Product></Product>
+    <Description>AspNetCore Mvc Localized Routing</Description>
+    <Copyright>© 2020 All rights reserved.</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/tomasjurasek/AspNetCore.Mvc.Routing.Localization</PackageProjectUrl>
+    <RepositoryUrl></RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>aspnetcore;aspnetmvc;routing;localization</PackageTags>
+    <Company />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.TagHelpers" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.2.2" />
+  </ItemGroup>
+
+</Project>
