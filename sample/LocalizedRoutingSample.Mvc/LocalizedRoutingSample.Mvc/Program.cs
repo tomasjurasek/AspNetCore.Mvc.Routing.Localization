@@ -13,6 +13,7 @@ namespace LocalizedRoutingSample.Mvc
     {
         public static void Main(string[] args)
         {
+            AppContext.SetSwitch("Microsoft.AspNetCore.Routing.UseCorrectCatchAllBehavior", true);
             CreateHostBuilder(args).Build().Run();
         }
 
