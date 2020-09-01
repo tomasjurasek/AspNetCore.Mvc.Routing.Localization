@@ -27,6 +27,14 @@ Register the services into the `IServiceCollection`.
 ```csharp
  services.AddLocalizedRouting();
 ```
+Use the LocalizedRoutingTranslationTransformer in the endpoints.
+```csharp
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapDynamicControllerRoute<LocalizedRoutingTranslationTransformer>("{culture=en-US}/{controller=Home}/{action=Jedno}/{id?}");
+    endpoints.MapControllerRoute(name: "default", pattern: "{culture=en-US}/{controller=Home}/{action=Jedno}/{id?}");
+});
+```
 
 Remove the default AnchorTagHelper and register from the library in the `_ViewImports.cshtml` file.
 ```csharp
