@@ -22,7 +22,7 @@ namespace AspNetCore.Mvc.Routing.Localization.Models
 
         public int GetHashCode(RouteInformation obj)
         {
-            return obj.Culture.GetHashCode() +
+            return obj.Culture?.GetHashCode() ?? 0 +
                 obj.Original.GetHashCode() +
                 obj.Template.GetHashCode();
         }
