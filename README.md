@@ -1,4 +1,6 @@
 # AspNetCore.Mvc.Routing.Localization
+![Build](https://github.com/tomasjurasek/AspNetCore.Mvc.Routing.Localization/workflows/Build/badge.svg)
+
 ## Requirements
 #### RequestCultureProviders
 You need to setup the RouteDataRequestCultureProvider with RouteDataStringKey = "culture".
