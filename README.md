@@ -1,5 +1,6 @@
 # AspNetCore.Mvc.Routing.Localization
 ![Build](https://github.com/tomasjurasek/AspNetCore.Mvc.Routing.Localization/workflows/Build/badge.svg)
+![Nuget](https://img.shields.io/nuget/v/AspNetCore.Mvc.Routing.Localization)
 
 ## Requirements
 #### RequestCultureProviders
