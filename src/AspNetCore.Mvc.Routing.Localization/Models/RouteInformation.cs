@@ -4,14 +4,14 @@ using System.Text;
 
 namespace AspNetCore.Mvc.Routing.Localization.Models
 {
-    public class RouteInformation
+    public sealed class RouteInformation
     {
         public string Original { get; set; }
         public string Culture { get; set; }
         public string Template { get; set; }
     }
 
-    public class RouteInformationComparer : IEqualityComparer<RouteInformation>
+    internal class RouteInformationComparer : IEqualityComparer<RouteInformation>
     {
         public bool Equals(RouteInformation x, RouteInformation y)
         {

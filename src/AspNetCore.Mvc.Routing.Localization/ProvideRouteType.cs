@@ -5,5 +5,4 @@
         OriginalToTranslated = 0,
         TranslatedToOriginal = 1
     }
-
 }

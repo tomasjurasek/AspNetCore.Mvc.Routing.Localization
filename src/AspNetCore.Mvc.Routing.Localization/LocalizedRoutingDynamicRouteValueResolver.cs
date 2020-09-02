@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AspNetCore.Mvc.Routing.Localization
 {
-    public class LocalizedRoutingDynamicRouteValueResolver : ILocalizedRoutingDynamicRouteValueResolver
+    internal class LocalizedRoutingDynamicRouteValueResolver : ILocalizedRoutingDynamicRouteValueResolver
     {
         private readonly ILocalizedRoutingProvider _localizedRoutingProvider;
 

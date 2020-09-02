@@ -16,7 +16,12 @@
     <PackageTags>aspnetcore;aspnetmvc;routing;localization</PackageTags>
     <Company />
   </PropertyGroup>
-
+  
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>AspNetCore.Mvc.Routing.Localization.Tests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.TagHelpers" Version="2.2.0" />

@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace AspNetCore.Mvc.Routing.Localization
 {
-    public class LocalizedRouteProvider : LocalizedRoutingProviderBase, ILocalizedRoutingProvider
+    internal class LocalizedRouteProvider : LocalizedRoutingProviderBase, ILocalizedRoutingProvider
     {
-        public static IEnumerable<RouteInformation> Routes = new List<RouteInformation>();
+        private static IEnumerable<RouteInformation> Routes = new List<RouteInformation>();
         private IActionDescriptorCollectionProvider _actionDescriptorCollectionProvider;
 
         public LocalizedRouteProvider(IActionDescriptorCollectionProvider actionDescriptorCollectionProvider)
@@ -75,7 +75,7 @@ namespace AspNetCore.Mvc.Routing.Localization
                     {
                         var routeInformation = new RouteInformation();
 
-                       
+
                         routeInformation.Original += $"{controller}/{action}";
                         routeInformation.Culture = controllerCustomLocalizedRouteAttribute.Culture;
 
