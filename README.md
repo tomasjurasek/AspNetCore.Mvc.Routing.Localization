@@ -27,6 +27,14 @@ public class LocalizedRoutingTranslationTransformer : DynamicRouteValueTransform
 ```csharp
 services.AddSingleton<LocalizedRoutingTranslationTransformer>();
 ```
+Use your DynamicRouteValueTransformer in the endpoints middleware with the following options.
+```csharp
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapDynamicControllerRoute<LocalizedRoutingTranslationTransformer>("{culture=en-US}/{controller=Home}/{action=Jedno}/{id?}");
+    endpoints.MapControllerRoute(name: "default", pattern: "{culture=en-US}/{controller=Home}/{action=Jedno}/{id?}");
+});
+```
 Set up the localization middleware.
 ```csharp
 var supportedCultures = new[]
@@ -47,14 +55,6 @@ options.RequestCultureProviders.Clear();
 options.RequestCultureProviders.Insert(0, new RouteDataRequestCultureProvider() { RouteDataStringKey = "culture" });
 
 app.UseRequestLocalization(options);
-```
-Use your DynamicRouteValueTransformer in the endpoints middleware with the following options.
-```csharp
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapDynamicControllerRoute<LocalizedRoutingTranslationTransformer>("{culture=en-US}/{controller=Home}/{action=Jedno}/{id?}");
-    endpoints.MapControllerRoute(name: "default", pattern: "{culture=en-US}/{controller=Home}/{action=Jedno}/{id?}");
-});
 ```
 
 Register the TagHelper from the `AspNetCore.Mvc.Routing.Localization` package in the `_ViewImports.cshtml` file which offers to you localize your route in Views.
