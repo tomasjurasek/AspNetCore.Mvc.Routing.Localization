@@ -5,6 +5,6 @@ namespace AspNetCore.Mvc.Routing.Localization
 {
     public interface ILocalizedRoutingProvider
     {
-        Task<RouteInformationMetadata> ProvideRouteAsync(string culture, string controller, string action, ProvideRouteType type);
+        Task<RouteInformation> ProvideRouteAsync(string culture, string controller, string action, LocalizationDirection direction);
     }
 }

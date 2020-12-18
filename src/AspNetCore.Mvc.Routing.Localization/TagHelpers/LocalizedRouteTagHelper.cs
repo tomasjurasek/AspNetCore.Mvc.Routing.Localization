@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace AspNetCore.Mvc.Routing.Localization.TagHelpers
 {
-    public class LocalizedLinkTagHelper : AnchorTagHelper
+    public class LocalizedRouteTagHelper : AnchorTagHelper
     {
         private readonly IActionContextAccessor _contextAccessor;
         private readonly ILocalizedRoutingProvider _translatedService;
 
-        public LocalizedLinkTagHelper(IHtmlGenerator generator, IActionContextAccessor contextAccessor, ILocalizedRoutingProvider translatedService) : base(generator)
+        public LocalizedRouteTagHelper(IHtmlGenerator generator, IActionContextAccessor contextAccessor, ILocalizedRoutingProvider translatedService) : base(generator)
         {
             _contextAccessor = contextAccessor;
             _translatedService = translatedService;
@@ -20,9 +20,9 @@ namespace AspNetCore.Mvc.Routing.Localization.TagHelpers
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = "a";
-            var culture = _contextAccessor.ActionContext.RouteData.Values["culture"]?.ToString();
 
-            var routeInformationMetadata = await _translatedService.ProvideRouteAsync(culture, Controller, Action, ProvideRouteType.OriginalToTranslated);
+            var culture = _contextAccessor.ActionContext.RouteData.Values["culture"]?.ToString();
+            var routeInformationMetadata = await _translatedService.ProvideRouteAsync(culture, Controller, Action, LocalizationDirection.OriginalToTranslated);
             Controller = routeInformationMetadata.Controller;
             Action = routeInformationMetadata.Action;
 
