@@ -48,7 +48,6 @@ var options = new RequestLocalizationOptions
     DefaultRequestCulture = new RequestCulture("en-US"),
     SupportedCultures = supportedCultures,
     SupportedUICultures = supportedCultures
-
 };
 
 options.RequestCultureProviders.Clear();
