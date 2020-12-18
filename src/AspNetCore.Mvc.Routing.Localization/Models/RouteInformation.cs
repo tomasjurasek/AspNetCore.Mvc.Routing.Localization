@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace AspNetCore.Mvc.Routing.Localization.Models
 {
     public sealed class RouteInformation
     {
-        public string Original { get; set; }
         public string Culture { get; set; }
-        public string Template { get; set; }
+
+        public RouteInformationMetadata Original { get; set; }
+
+        public RouteInformationMetadata Translated { get; set; }
     }
 
     internal class RouteInformationComparer : IEqualityComparer<RouteInformation>
@@ -17,14 +17,14 @@ namespace AspNetCore.Mvc.Routing.Localization.Models
         {
             return x.Culture == y.Culture &&
                 x.Original == y.Original &&
-                x.Template == y.Template;
+                x.Translated == y.Translated;
         }
 
         public int GetHashCode(RouteInformation obj)
         {
             return obj.Culture?.GetHashCode() ?? 0 +
                 obj.Original.GetHashCode() +
-                obj.Template.GetHashCode();
+                obj.Translated.GetHashCode();
         }
     }
 }

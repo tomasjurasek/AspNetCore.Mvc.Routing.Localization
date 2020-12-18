@@ -1,8 +1,4 @@
 ﻿using Microsoft.AspNetCore.Routing;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace AspNetCore.Mvc.Routing.Localization
@@ -20,11 +16,10 @@ namespace AspNetCore.Mvc.Routing.Localization
             if (!values.ContainsKey("culture") || !values.ContainsKey("controller") || !values.ContainsKey("action")) return values;
 
             var culture = (string)values["culture"];
-            var route = await _localizedRoutingProvider.ProvideRouteAsync(culture, (string)values["controller"], (string)values["action"], ProvideRouteType.TranslatedToOriginal);
-            var routeValues = route.Split('/');
+            var routeInformationMetadata = await _localizedRoutingProvider.ProvideRouteAsync(culture, (string)values["controller"], (string)values["action"], ProvideRouteType.TranslatedToOriginal);
           
-            values["controller"] = routeValues[0];
-            values["action"] = routeValues[1];
+            values["controller"] = routeInformationMetadata.Controller;
+            values["action"] = routeInformationMetadata.Action;
 
             return values;
         }
