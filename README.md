@@ -9,7 +9,7 @@ Register the services into the `IServiceCollection`.
 ```csharp
  services.AddLocalizedRouting();
 ```
-Implement nad register the DynamicRouteValueTransformer.
+Implement and register the DynamicRouteValueTransformer.
 ```csharp
 public class LocalizedRoutingTranslationTransformer : DynamicRouteValueTransformer
 {
@@ -27,8 +27,28 @@ public class LocalizedRoutingTranslationTransformer : DynamicRouteValueTransform
 ```csharp
 services.AddSingleton<LocalizedRoutingTranslationTransformer>();
 ```
+Set up the localization middleware.
+```csharp
+var supportedCultures = new[]
+{
+    new CultureInfo("cs-CZ"),
+    new CultureInfo("en-US"),
+};
 
-Use your DynamicRouteValueTransformer in the endpoints with the following settings.
+var options = new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture("en-US"),
+    SupportedCultures = supportedCultures,
+    SupportedUICultures = supportedCultures
+
+};
+
+options.RequestCultureProviders.Clear();
+options.RequestCultureProviders.Insert(0, new RouteDataRequestCultureProvider() { RouteDataStringKey = "culture" });
+
+app.UseRequestLocalization(options);
+```
+Use your DynamicRouteValueTransformer in the endpoints middleware with the following options.
 ```csharp
 app.UseEndpoints(endpoints =>
 {
