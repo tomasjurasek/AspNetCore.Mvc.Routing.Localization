@@ -16,8 +16,7 @@ namespace AspNetCore.Mvc.Routing.Localization
         {
             if (!values.ContainsKey("culture") || !values.ContainsKey("controller") || !values.ContainsKey("action")) return values;
 
-            var culture = (string)values["culture"];
-            var routeInformationMetadata = await _localizedRoutingProvider.ProvideRouteAsync(culture, (string)values["controller"], (string)values["action"], LocalizationDirection.TranslatedToOriginal);
+            var routeInformationMetadata = await _localizedRoutingProvider.ProvideRouteAsync((string)values["culture"], (string)values["controller"], (string)values["action"], LocalizationDirection.TranslatedToOriginal);
           
             values["controller"] = routeInformationMetadata.Controller;
             values["action"] = routeInformationMetadata.Action;
