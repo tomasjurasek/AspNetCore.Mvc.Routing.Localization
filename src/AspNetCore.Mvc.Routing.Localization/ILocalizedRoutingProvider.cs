@@ -1,4 +1,5 @@
 ﻿using AspNetCore.Mvc.Routing.Localization.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AspNetCore.Mvc.Routing.Localization

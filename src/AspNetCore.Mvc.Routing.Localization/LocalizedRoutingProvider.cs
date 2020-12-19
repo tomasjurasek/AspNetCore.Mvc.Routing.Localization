@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace AspNetCore.Mvc.Routing.Localization
 {
-    internal class LocalizedRouteProvider : LocalizedRoutingProviderBase, ILocalizedRoutingProvider
+    internal class LocalizedRouteProvider : ILocalizedRoutingProvider
     {
         private IEnumerable<LocalizedRoute> _routes = new List<LocalizedRoute>();
         private IActionDescriptorCollectionProvider _actionDescriptorCollectionProvider;
@@ -59,7 +59,7 @@ namespace AspNetCore.Mvc.Routing.Localization
                         : (original(culture) ?? original(null))?.Translated;
         }
 
-        protected override async Task<IList<LocalizedRoute>> GetRoutesAsync()
+        protected virtual async Task<IList<LocalizedRoute>> GetRoutesAsync()
         {
             var routesInformations = new List<LocalizedRoute>();
             foreach (var route in _actionDescriptorCollectionProvider.ActionDescriptors.Items)
