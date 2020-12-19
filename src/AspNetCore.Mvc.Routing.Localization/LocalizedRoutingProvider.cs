@@ -59,7 +59,7 @@ namespace AspNetCore.Mvc.Routing.Localization
                         : (original(culture) ?? original(null))?.Translated;
         }
 
-        protected virtual async Task<IList<LocalizedRoute>> GetRoutesAsync()
+        protected virtual async Task<IEnumerable<LocalizedRoute>> GetRoutesAsync()
         {
             var routesInformations = new List<LocalizedRoute>();
             foreach (var route in _actionDescriptorCollectionProvider.ActionDescriptors.Items)
