@@ -2,10 +2,13 @@
 ![Build](https://github.com/tomasjurasek/AspNetCore.Mvc.Routing.Localization/workflows/Build/badge.svg)
 ![Nuget](https://img.shields.io/nuget/v/AspNetCore.Mvc.Routing.Localization)
 
-## Requirements
-#### RequestCultureProviders
-You need to setup the RouteDataRequestCultureProvider with RouteDataStringKey = "culture".
-#### DynamicRouteValueTransformer
+> WARNING: We support just **RouteDataRequestCultureProvider** with the RouteDataStringKey = "culture".
+
+## Setup
+Register the services into the `IServiceCollection`.
+```csharp
+ services.AddLocalizedRouting();
+```
 Implement and register the DynamicRouteValueTransformer.
 ```csharp
 public class LocalizedRoutingTranslationTransformer : DynamicRouteValueTransformer
@@ -24,13 +27,7 @@ public class LocalizedRoutingTranslationTransformer : DynamicRouteValueTransform
 ```csharp
 services.AddSingleton<LocalizedRoutingTranslationTransformer>();
 ```
-
-## Setup
-Register the services into the `IServiceCollection`.
-```csharp
- services.AddLocalizedRouting();
-```
-Use the LocalizedRoutingTranslationTransformer in the endpoints.
+Use your DynamicRouteValueTransformer in the endpoints middleware with the following options.
 ```csharp
 app.UseEndpoints(endpoints =>
 {
@@ -38,14 +35,33 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllerRoute(name: "default", pattern: "{culture=en-US}/{controller=Home}/{action=Jedno}/{id?}");
 });
 ```
+Set up the localization middleware.
+```csharp
+var supportedCultures = new[]
+{
+    new CultureInfo("cs-CZ"),
+    new CultureInfo("en-US"),
+};
 
-Remove the default AnchorTagHelper and register from the library in the `_ViewImports.cshtml` file.
+var options = new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture("en-US"),
+    SupportedCultures = supportedCultures,
+    SupportedUICultures = supportedCultures
+};
+
+options.RequestCultureProviders.Clear();
+options.RequestCultureProviders.Insert(0, new RouteDataRequestCultureProvider() { RouteDataStringKey = "culture" });
+
+app.UseRequestLocalization(options);
+```
+
+Register the TagHelper from the `AspNetCore.Mvc.Routing.Localization` package in the `_ViewImports.cshtml` file which offers to you localize your route in Views.
 ```csharp
 @addTagHelper *, AspNetCore.Mvc.Routing.Localization
-@removeTagHelper Microsoft.AspNetCore.Mvc.TagHelpers.AnchorTagHelper, Microsoft.AspNetCore.Mvc.TagHelpers
 ```
 
 ## Using
 
-Use the `LocalizedRoute` attribute where the parameters are culture, which is registered supported culture and the template. 
-You can also combine with the `Route` attribute.
+Use the `LocalizedRoute` attribute for localize your Route.
+In the View part you can use the TagHelper `<localized-route asp-controller="Home" asp-action="Index" ...></localized-route>` which localize your links by the`LocalizedRoute` attributes.
