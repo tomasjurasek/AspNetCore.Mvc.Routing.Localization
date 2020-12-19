@@ -2,7 +2,7 @@
 ![Build](https://github.com/tomasjurasek/AspNetCore.Mvc.Routing.Localization/workflows/Build/badge.svg)
 ![Nuget](https://img.shields.io/nuget/v/AspNetCore.Mvc.Routing.Localization)
 
-> WARNING: We support just **RouteDataRequestCultureProvider** with the RouteDataStringKey = "culture".
+> WARNING: We support only the **RouteDataRequestCultureProvider** with the RouteDataStringKey = "culture".
 
 ## Setup
 Register the services into the `IServiceCollection`.
@@ -14,10 +14,12 @@ Implement and register the DynamicRouteValueTransformer.
 public class LocalizedRoutingTranslationTransformer : DynamicRouteValueTransformer
 {
     private ILocalizedRoutingDynamicRouteValueResolver _localizedRoutingDynamicRouteValueResolver;
+    
     public LocalizedRoutingTranslationTransformer(ILocalizedRoutingDynamicRouteValueResolver localizedRoutingDynamicRouteValueResolver)
     {
         _localizedRoutingDynamicRouteValueResolver = localizedRoutingDynamicRouteValueResolver;
     }
+    
     public override async ValueTask<RouteValueDictionary> TransformAsync(HttpContext httpContext, RouteValueDictionary values)
     {
         return await _localizedRoutingDynamicRouteValueResolver.ResolveAsync(values);
@@ -27,7 +29,7 @@ public class LocalizedRoutingTranslationTransformer : DynamicRouteValueTransform
 ```csharp
 services.AddSingleton<LocalizedRoutingTranslationTransformer>();
 ```
-Use your DynamicRouteValueTransformer in the endpoints middleware with the following options.
+Register your DynamicRouteValueTransformer in the endpoints middleware with the following template.
 ```csharp
 app.UseEndpoints(endpoints =>
 {
@@ -63,5 +65,4 @@ Register the TagHelper from the `AspNetCore.Mvc.Routing.Localization` package in
 
 ## Using
 
-Use the `LocalizedRoute` attribute for localize your Route.
-In the View part you can use the TagHelper `<localized-route asp-controller="Home" asp-action="Index" ...></localized-route>` which localize your links by the`LocalizedRoute` attributes.
+Use the `LocalizedRoute` attribute for localize your route. In the Views you can use the TagHelper `<localized-route asp-controller="Home" asp-action="Index" ...></localized-route>` which localize your links defined by the `LocalizedRoute` attributes.
