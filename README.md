@@ -33,8 +33,8 @@ Register your `DynamicRouteValueTransformer` in the endpoints middleware with th
 ```csharp
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapDynamicControllerRoute<LocalizedRoutingTranslationTransformer>("{culture=en-US}/{controller=Home}/{action=Jedno}/{id?}");
-    endpoints.MapControllerRoute(name: "default", pattern: "{culture=en-US}/{controller=Home}/{action=Jedno}/{id?}");
+    endpoints.MapDynamicControllerRoute<LocalizedRoutingTranslationTransformer>("{culture=en-US}/{controller=Home}/{action=Index}/{id?}");
+    endpoints.MapControllerRoute(name: "default", pattern: "{culture=en-US}/{controller=Home}/{action=Index}/{id?}");
 });
 ```
 Set up the localization middleware.
