@@ -9,7 +9,7 @@ Register the services into the `IServiceCollection`.
 ```csharp
  services.AddLocalizedRouting();
 ```
-Implement and register the DynamicRouteValueTransformer.
+Implement and register the `DynamicRouteValueTransformer`.
 ```csharp
 public class LocalizedRoutingTranslationTransformer : DynamicRouteValueTransformer
 {
@@ -29,7 +29,7 @@ public class LocalizedRoutingTranslationTransformer : DynamicRouteValueTransform
 ```csharp
 services.AddSingleton<LocalizedRoutingTranslationTransformer>();
 ```
-Register your DynamicRouteValueTransformer in the endpoints middleware with the following template.
+Register your `DynamicRouteValueTransformer` in the endpoints middleware with the following template.
 ```csharp
 app.UseEndpoints(endpoints =>
 {
