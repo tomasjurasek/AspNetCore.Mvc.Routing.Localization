@@ -13,9 +13,9 @@ namespace AspNetCore.Mvc.Routing.Localization
 {
     internal class LocalizedRouteProvider : LocalizedRoutingProviderBase, ILocalizedRoutingProvider
     {
-        private IEnumerable<LocalizedRoute> Routes = new List<LocalizedRoute>();
+        private IEnumerable<LocalizedRoute> _routes = new List<LocalizedRoute>();
         private IActionDescriptorCollectionProvider _actionDescriptorCollectionProvider;
-        private SemaphoreSlim semaphore = new SemaphoreSlim(1);
+        private SemaphoreSlim _semaphore = new SemaphoreSlim(1);
 
         public LocalizedRouteProvider(IActionDescriptorCollectionProvider actionDescriptorCollectionProvider)
         {
@@ -24,12 +24,12 @@ namespace AspNetCore.Mvc.Routing.Localization
 
         public async Task<RouteInformation> ProvideRouteAsync(string culture, string controler, string action, LocalizationDirection direction)
         {
-            if (!Routes.Any())
+            if (!_routes.Any())
             {
                 try
                 {
-                    await semaphore.WaitAsync();
-                    Routes = await GetRoutesAsync();
+                    await _semaphore.WaitAsync();
+                    _routes = await GetRoutesAsync();
                 }
                 catch (Exception)
                 {
@@ -37,7 +37,7 @@ namespace AspNetCore.Mvc.Routing.Localization
                 }
                 finally
                 {
-                    semaphore.Release();
+                    _semaphore.Release();
                 }
             }
 
@@ -47,11 +47,11 @@ namespace AspNetCore.Mvc.Routing.Localization
         public RouteInformation GetLocalizedRoute(string culture, string controller, string action, LocalizationDirection direction)
         {
             Func<string, LocalizedRoute> translated = (currentCulture) =>
-                 Routes
+                 _routes
                     .FirstOrDefault(s => s.Culture == currentCulture && s.Translated?.Action == action && s.Translated?.Controller == controller);
 
             Func<string, LocalizedRoute> original = (currentCulture) =>
-                    Routes
+                    _routes
                     .FirstOrDefault(s => s.Culture == currentCulture && s.Original?.Action == action && s.Original?.Controller == controller);
 
             return direction == LocalizationDirection.TranslatedToOriginal
@@ -75,7 +75,8 @@ namespace AspNetCore.Mvc.Routing.Localization
                         RouteInformation.Create(controller, action),
                         RouteInformation.Create(controller, action)));
 
-                    var controllerCustomLocalizedRouteAttributes = routeDescriptor.ControllerTypeInfo.GetCustomAttributes(typeof(LocalizedRouteAttribute), true).Select(s => s as LocalizedRouteAttribute);
+                    var controllerCustomLocalizedRouteAttributes = GetControllersAttribute<LocalizedRouteAttribute>(routeDescriptor);
+
                     foreach (var controllerCustomLocalizedRouteAttribute in controllerCustomLocalizedRouteAttributes)
                     {
                         var routeInformation = LocalizedRoute.Create(
@@ -83,8 +84,7 @@ namespace AspNetCore.Mvc.Routing.Localization
                             RouteInformation.Create(controller, action),
                             null);
 
-                        var actionCustomLocalizedRouteAttribute = routeDescriptor.MethodInfo.GetCustomAttributes(typeof(LocalizedRouteAttribute), true)
-                            .Select(s => s as LocalizedRouteAttribute)
+                        var actionCustomLocalizedRouteAttribute = GetMethodsAttribute<LocalizedRouteAttribute>(routeDescriptor)
                             .FirstOrDefault(s => s.Culture == controllerCustomLocalizedRouteAttribute.Culture);
 
                         if (actionCustomLocalizedRouteAttribute != null)
@@ -95,9 +95,8 @@ namespace AspNetCore.Mvc.Routing.Localization
                         }
                         else
                         {
-                            var actionRouteAttribute = routeDescriptor.MethodInfo.GetCustomAttributes(typeof(RouteAttribute), true)
-                               .Select(s => s as RouteAttribute)
-                               .FirstOrDefault();
+                            var actionRouteAttribute = GetMethodsAttribute<RouteAttribute>(routeDescriptor)
+                                .FirstOrDefault();
 
                             if (actionRouteAttribute != null)
                             {
@@ -115,13 +114,12 @@ namespace AspNetCore.Mvc.Routing.Localization
                         routesInformations.Add(routeInformation);
                     }
 
-                    var controllerRouteAttribute = routeDescriptor.ControllerTypeInfo.GetCustomAttributes(typeof(RouteAttribute), true)
-                         .Select(s => s as RouteAttribute)
-                         .FirstOrDefault();
+                    var controllerRouteAttribute = GetControllersAttribute<RouteAttribute>(routeDescriptor).FirstOrDefault();
 
                     if (controllerRouteAttribute != null)
                     {
-                        var actionCustomLocalizedRouteAttributes = routeDescriptor.MethodInfo.GetCustomAttributes(typeof(LocalizedRouteAttribute), true).Select(s => s as LocalizedRouteAttribute);
+                        IEnumerable<LocalizedRouteAttribute> actionCustomLocalizedRouteAttributes = GetMethodsAttribute<LocalizedRouteAttribute>(routeDescriptor);
+
                         foreach (var actionCustomLocalizedRouteAttribute in actionCustomLocalizedRouteAttributes)
                         {
                             var routeInformation = LocalizedRoute.Create(
@@ -137,8 +135,7 @@ namespace AspNetCore.Mvc.Routing.Localization
                             routesInformations.Add(routeInformation);
                         }
 
-                        var actionRouteAttribute = routeDescriptor.MethodInfo.GetCustomAttributes(typeof(RouteAttribute), true)
-                            .Select(s => s as RouteAttribute)
+                        var actionRouteAttribute = GetMethodsAttribute<RouteAttribute>(routeDescriptor)
                             .FirstOrDefault();
 
                         if (actionRouteAttribute != null)
@@ -155,6 +152,20 @@ namespace AspNetCore.Mvc.Routing.Localization
             }
 
             return routesInformations;
+        }
+
+        private static IEnumerable<T> GetMethodsAttribute<T>(ControllerActionDescriptor routeDescriptor) where T : class
+        {
+            return routeDescriptor.MethodInfo
+                .GetCustomAttributes(typeof(T), true)
+                .Select(s => s as T);
+        }
+
+        private static IEnumerable<T> GetControllersAttribute<T>(ControllerActionDescriptor routeDescriptor) where T : class
+        {
+            return routeDescriptor.ControllerTypeInfo
+                .GetCustomAttributes(typeof(T), true)
+                .Select(s => s as T);
         }
     }
 }
