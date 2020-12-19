@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
 using AspNetCore.Mvc.Routing.Localization.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Localization.Routing;
 using Microsoft.Extensions.Configuration;
@@ -55,8 +50,8 @@ namespace LocalizedRoutingSample.Mvc
 
             var supportedCultures = new[]
             {
-                    new CultureInfo("cs-CZ"),
-                    new CultureInfo("en-US"),
+                new CultureInfo("cs-CZ"),
+                new CultureInfo("en-US"),
             };
 
             var options = new RequestLocalizationOptions
@@ -64,7 +59,6 @@ namespace LocalizedRoutingSample.Mvc
                 DefaultRequestCulture = new RequestCulture("en-US"),
                 SupportedCultures = supportedCultures,
                 SupportedUICultures = supportedCultures
-
             };
 
             options.RequestCultureProviders.Clear();
@@ -75,10 +69,10 @@ namespace LocalizedRoutingSample.Mvc
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapDynamicControllerRoute<LocalizedRoutingTranslationTransformer>("{culture=en-US}/{controller=Home}/{action=Jedno}/{id?}");
+                endpoints.MapDynamicControllerRoute<LocalizedRoutingTranslationTransformer>("{culture=en-US}/{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{culture=en-US}/{controller=Home}/{action=Jedno}/{id?}");
+                    pattern: "{culture=en-US}/{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

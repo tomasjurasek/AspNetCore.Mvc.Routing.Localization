@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using LocalizedRoutingSample.Mvc.Models;
@@ -13,14 +9,8 @@ namespace LocalizedRoutingSample.Mvc.Controllers
     [LocalizedRoute("en-US", "Home")]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
-        [Route("Jedno")]
+        [LocalizedRoute("en-US", "Index")]
         public IActionResult Index()
         {
             return View();
@@ -33,7 +23,7 @@ namespace LocalizedRoutingSample.Mvc.Controllers
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        [Route("Error")]
+        [LocalizedRoute("en-US", "Error")]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
