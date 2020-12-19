@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>8.0</LangVersion>
     <AssemblyName>AspNetCore.Mvc.Routing.Localization</AssemblyName>
     <RootNamespace>AspNetCore.Mvc.Routing.Localization</RootNamespace>
     <Authors>Tomas Jurasek</Authors>
@@ -15,6 +16,10 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>aspnetcore;aspnetmvc;routing;localization</PackageTags>
     <Company />
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   
   <ItemGroup>

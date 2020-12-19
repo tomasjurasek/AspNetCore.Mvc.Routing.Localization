@@ -6,6 +6,6 @@ namespace AspNetCore.Mvc.Routing.Localization
 {
     public abstract class LocalizedRoutingProviderBase
     {
-        protected abstract Task<IEnumerable<LocalizedRoute>> GetRoutesAsync();
+        protected abstract Task<IList<LocalizedRoute>> GetRoutesAsync();
     }
 }

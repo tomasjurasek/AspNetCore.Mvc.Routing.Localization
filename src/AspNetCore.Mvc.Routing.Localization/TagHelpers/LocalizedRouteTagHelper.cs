@@ -23,6 +23,7 @@ namespace AspNetCore.Mvc.Routing.Localization.TagHelpers
 
             var culture = _contextAccessor.ActionContext.RouteData.Values["culture"]?.ToString();
             var routeInformationMetadata = await _translatedService.ProvideRouteAsync(culture, Controller, Action, LocalizationDirection.OriginalToTranslated);
+
             Controller = routeInformationMetadata.Controller;
             Action = routeInformationMetadata.Action;
 

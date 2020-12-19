@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Routing;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 
 namespace AspNetCore.Mvc.Routing.Localization.Attributes
 {
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = true)]
-    public class LocalizedRouteAttribute : Attribute, ILocalizedRouteTemplateProvider
+    public class LocalizedRouteAttribute : Attribute
     {
         public LocalizedRouteAttribute(string culture, string template)
         {
@@ -18,12 +14,5 @@ namespace AspNetCore.Mvc.Routing.Localization.Attributes
         public string Culture { get; }
 
         public string Template { get; }
-    }
-
-
-    public interface ILocalizedRouteTemplateProvider
-    {
-        string Template { get; }
-        string Culture { get; }
     }
 }

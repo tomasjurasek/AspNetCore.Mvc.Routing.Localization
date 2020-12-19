@@ -11,6 +11,7 @@ namespace AspNetCore.Mvc.Routing.Localization
         {
             _localizedRoutingProvider = localizedRoutingProvider;
         }
+
         public async Task<RouteValueDictionary> ResolveAsync(RouteValueDictionary values)
         {
             if (!values.ContainsKey("culture") || !values.ContainsKey("controller") || !values.ContainsKey("action")) return values;
