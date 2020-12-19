@@ -70,33 +70,18 @@ namespace AspNetCore.Mvc.Routing.Localization
                     route.RouteValues.TryGetValue("controller", out var controller);
                     route.RouteValues.TryGetValue("action", out var action);
 
-                    routesInformations.Add(new LocalizedRoute
-                    {
-                        Culture = null,
-                        Original = new RouteInformation
-                        {
-                            Controller = controller,
-                            Action = action
-                        },
-                        Translated = new RouteInformation
-                        {
-                            Controller = controller,
-                            Action = action
-                        }
-                    });
+                    routesInformations.Add(LocalizedRoute.Create(
+                        null,
+                        RouteInformation.Create(controller, action),
+                        RouteInformation.Create(controller, action)));
 
                     var controllerCustomLocalizedRouteAttributes = routeDescriptor.ControllerTypeInfo.GetCustomAttributes(typeof(LocalizedRouteAttribute), true).Select(s => s as LocalizedRouteAttribute);
                     foreach (var controllerCustomLocalizedRouteAttribute in controllerCustomLocalizedRouteAttributes)
                     {
-                        var routeInformation = new LocalizedRoute
-                        {
-                            Culture = controllerCustomLocalizedRouteAttribute.Culture,
-                            Original = new RouteInformation
-                            {
-                                Controller = controller,
-                                Action = action
-                            }
-                        };
+                        var routeInformation = LocalizedRoute.Create(
+                            controllerCustomLocalizedRouteAttribute.Culture,
+                            RouteInformation.Create(controller, action),
+                            null);
 
                         var actionCustomLocalizedRouteAttribute = routeDescriptor.MethodInfo.GetCustomAttributes(typeof(LocalizedRouteAttribute), true)
                             .Select(s => s as LocalizedRouteAttribute)
@@ -104,11 +89,9 @@ namespace AspNetCore.Mvc.Routing.Localization
 
                         if (actionCustomLocalizedRouteAttribute != null)
                         {
-                            routeInformation.Translated = new RouteInformation
-                            {
-                                Controller = controllerCustomLocalizedRouteAttribute.Template,
-                                Action = actionCustomLocalizedRouteAttribute.Template
-                            };
+                            routeInformation.Translated = RouteInformation.Create(
+                                controllerCustomLocalizedRouteAttribute.Template,
+                               actionCustomLocalizedRouteAttribute.Template);
                         }
                         else
                         {
@@ -118,21 +101,15 @@ namespace AspNetCore.Mvc.Routing.Localization
 
                             if (actionRouteAttribute != null)
                             {
-                                routeInformation.Translated = new RouteInformation
-                                {
-                                    Controller = controllerCustomLocalizedRouteAttribute.Template,
-                                    Action = actionRouteAttribute.Template
-                                };
+                                routeInformation.Translated = RouteInformation.Create(
+                                    controllerCustomLocalizedRouteAttribute.Template,
+                                    actionRouteAttribute.Template);
                             }
                         }
 
                         if (routeInformation.Translated == null)
                         {
-                            routeInformation.Translated = new RouteInformation
-                            {
-                                Controller = controller,
-                                Action = action
-                            };
+                            routeInformation.Translated = RouteInformation.Create(controller, action);
                         }
 
                         routesInformations.Add(routeInformation);
@@ -147,28 +124,14 @@ namespace AspNetCore.Mvc.Routing.Localization
                         var actionCustomLocalizedRouteAttributes = routeDescriptor.MethodInfo.GetCustomAttributes(typeof(LocalizedRouteAttribute), true).Select(s => s as LocalizedRouteAttribute);
                         foreach (var actionCustomLocalizedRouteAttribute in actionCustomLocalizedRouteAttributes)
                         {
-                            var routeInformation = new LocalizedRoute
-                            {
-                                Culture = actionCustomLocalizedRouteAttribute.Culture,
-                                Original = new RouteInformation
-                                {
-                                    Controller = controller,
-                                    Action = action
-                                },
-                                Translated = new RouteInformation
-                                {
-                                    Controller = controllerRouteAttribute.Template,
-                                    Action = actionCustomLocalizedRouteAttribute.Template
-                                }
-                            };
+                            var routeInformation = LocalizedRoute.Create(
+                                actionCustomLocalizedRouteAttribute.Culture,
+                                RouteInformation.Create(controller, action),
+                                RouteInformation.Create(controllerRouteAttribute.Template, actionCustomLocalizedRouteAttribute.Template));
 
                             if (routeInformation.Translated == null)
                             {
-                                routeInformation.Translated = new RouteInformation
-                                {
-                                    Controller = controller,
-                                    Action = action
-                                };
+                                routeInformation.Translated = RouteInformation.Create(controller, action);
                             }
 
                             routesInformations.Add(routeInformation);
@@ -180,19 +143,10 @@ namespace AspNetCore.Mvc.Routing.Localization
 
                         if (actionRouteAttribute != null)
                         {
-                            var routeInformation = new LocalizedRoute
-                            {
-                                Original = new RouteInformation
-                                {
-                                    Controller = controller,
-                                    Action = action
-                                },
-                                Translated = new RouteInformation
-                                {
-                                    Controller = controllerRouteAttribute.Template,
-                                    Action = actionRouteAttribute.Template
-                                }
-                            };
+                            var routeInformation = LocalizedRoute.Create(
+                                null,
+                                RouteInformation.Create(controller, action),
+                                RouteInformation.Create(controllerRouteAttribute.Template, actionRouteAttribute.Template));
 
                             routesInformations.Add(routeInformation);
                         }
