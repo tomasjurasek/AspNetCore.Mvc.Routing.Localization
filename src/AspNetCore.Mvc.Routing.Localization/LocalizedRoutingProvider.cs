@@ -68,7 +68,7 @@ namespace AspNetCore.Mvc.Routing.Localization
                 
                 LocalizedRouteController, LocalizedRouteAction
                 LocalizedRouteController, RouteAction
-                LocalizedRouteController, OriginalAction - not yet
+                LocalizedRouteController, OriginalAction 
                 
                 RouteController - LocalizedAction - not yet
                 RouteController - RouteAction - not yet
