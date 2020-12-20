@@ -57,7 +57,7 @@ namespace AspNetCore.Mvc.Routing.Localization
         }
 
         /// <summary>
-        /// Method creates localized routes. 
+        /// This method creates localized routes. 
         /// You can override this method to change the source of localized routes - DB, File,...
         /// </summary>
         /// <returns>Localized routes</returns>
