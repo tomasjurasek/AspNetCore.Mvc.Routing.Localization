@@ -63,7 +63,25 @@ namespace AspNetCore.Mvc.Routing.Localization
         /// <returns>Localized routes</returns>
         protected virtual async Task<IEnumerable<LocalizedRoute>> GetRoutesAsync()
         {
+            /* 
+                If there is no LocalizedRouteAction it is for all cultures
+                
+                LocalizedRouteController, LocalizedRouteAction
+                LocalizedRouteController, RouteAction
+                LocalizedRouteController, OriginalAction - not yet
+                
+                RouteController - LocalizedAction - not yet
+                RouteController - RouteAction - not yet
+                RouteController - OriginalAction - not yet
+
+                OriginalController - LocalizedRouteAction - not yet
+                OriginalController - RouteAction - not yet
+                OriginalController - OriginalAction - not yet    
+
+             */
+
             var routesInformations = new List<LocalizedRoute>();
+
             foreach (var route in _actionDescriptorCollectionProvider.ActionDescriptors.Items)
             {
                 if (route is ControllerActionDescriptor)
