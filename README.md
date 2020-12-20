@@ -65,4 +65,4 @@ Register the TagHelper from the `AspNetCore.Mvc.Routing.Localization` package in
 
 ## Using
 
-Use the `LocalizedRoute` attribute for localize your route. In the Views you can use the TagHelper `<localized-route asp-controller="Home" asp-action="Index" ...></localized-route>` which localize your links defined by the `LocalizedRoute` attributes.
+Use the `LocalizedRoute` attribute for localize your route. In the Views you can use the TagHelper `<localized-route asp-controller="Home" asp-action="Index" ...>Link text</localized-route>` which localizes your links defined by the `LocalizedRoute` attributes.
