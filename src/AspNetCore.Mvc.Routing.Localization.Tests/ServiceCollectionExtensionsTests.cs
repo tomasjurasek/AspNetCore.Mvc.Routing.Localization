@@ -1,11 +1,9 @@
 ﻿using AspNetCore.Mvc.Routing.Localization.Extensions;
-using FakeItEasy;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 using Xunit;
 
 namespace AspNetCore.Mvc.Routing.Localization.Tests
