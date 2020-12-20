@@ -10,17 +10,17 @@ namespace AspNetCore.Mvc.Routing.Localization.Filters
     /// </summary>
     public class SupportedCultureValidatorActionFilter : ActionFilterAttribute
     {
-        public IOptions<RequestLocalizationOptions> Options { get; }
+        private IOptions<RequestLocalizationOptions> _options { get; set; }
 
         public SupportedCultureValidatorActionFilter(IOptions<RequestLocalizationOptions> options)
         {
-            Options = options;
+            _options = options;
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             var culture = context.RouteData.Values["culture"] as string;
-            if (string.IsNullOrEmpty(culture) || !Options.Value.SupportedCultures.Contains(new System.Globalization.CultureInfo(culture)))
+            if (string.IsNullOrEmpty(culture) || !_options.Value.SupportedCultures.Contains(new System.Globalization.CultureInfo(culture)))
             {
                 throw new ArgumentException("The request does not contain a culture");
             }
