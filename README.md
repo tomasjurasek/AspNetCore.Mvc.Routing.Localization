@@ -2,7 +2,10 @@
 ![Build](https://github.com/tomasjurasek/AspNetCore.Mvc.Routing.Localization/workflows/Build/badge.svg)
 ![Nuget](https://img.shields.io/nuget/v/AspNetCore.Mvc.Routing.Localization)
 
-> WARNING: We support only the **RouteDataRequestCultureProvider** with the RouteDataStringKey = "culture".
+> WARNING: We support only the **RouteDataRequestCultureProvider** with the RouteDataStringKey = "culture" and a combination of the attributes with this priority. 
+* LocalizedRouteAttributeController - LocalizedRouteAttributeAction
+* LocalizedRouteAttributeController - RouteAttributeAction
+* LocalizedRouteAttributeController - OriginalAction 
 
 ## Setup
 Register the services into the `IServiceCollection`.
