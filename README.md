@@ -63,7 +63,7 @@ Register the TagHelper from the `AspNetCore.Mvc.Routing.Localization` package in
 @addTagHelper *, AspNetCore.Mvc.Routing.Localization
 ```
 
-## Using
+## Usage
 
 * `LocalizedRouteAttribute` - the attribute defines the localized route. Example `[LocalizedRoute("en-US", Home)`.
 * `<localized-route></localized-route>` - the taghelper which localizes your links defined by the `LocalizedRouteAttribute` attributes. Example `<localized-route asp-controller="Home" asp-action="Index">Home</localized-route>`.
