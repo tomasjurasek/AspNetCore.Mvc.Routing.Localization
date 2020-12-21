@@ -6,7 +6,12 @@
 * LocalizedRouteAttribute - LocalizedRouteAttribute
 * LocalizedRouteAttribute - RouteAttribute
 * LocalizedRouteAttribute - Action 
-
+* RouteAttribute          - LocalizedRouteAttribute - not yet
+* RouteAttribute          - RouteAttribute
+* RouteAttribute          - Action
+* Controller              - LocalizedRouteAttribute - not yet
+* Controller              - RouteAttribute
+* Controller              - Controller 
 ## Setup
 Register the services into the `IServiceCollection`.
 ```csharp
