@@ -18,12 +18,13 @@ namespace AspNetCore.Mvc.Routing.Localization
     public class LocalizedRouteProvider : ILocalizedRoutingProvider
     {
         private IEnumerable<LocalizedRoute> _routes = new List<LocalizedRoute>();
-        private IActionDescriptorCollectionProvider _actionDescriptorCollectionProvider;
+        private bool _routesLoaded = false;
         private SemaphoreSlim _semaphore = new SemaphoreSlim(1);
+        private readonly IControllerActionDescriptorProvider _controllerActionDescriptorProvider;
 
-        public LocalizedRouteProvider(IActionDescriptorCollectionProvider actionDescriptorCollectionProvider)
+        public LocalizedRouteProvider(IControllerActionDescriptorProvider controllerActionDescriptorProvider)
         {
-            _actionDescriptorCollectionProvider = actionDescriptorCollectionProvider;
+            _controllerActionDescriptorProvider = controllerActionDescriptorProvider;
         }
 
         /// <summary>
@@ -36,7 +37,7 @@ namespace AspNetCore.Mvc.Routing.Localization
         /// <returns></returns>
         public async Task<RouteInformation> ProvideRouteAsync(string culture, string controler, string action, LocalizationDirection direction)
         {
-            if (!_routes.Any())
+            if (!_routesLoaded && !_routes.Any())
             {
                 try
                 {
@@ -49,6 +50,7 @@ namespace AspNetCore.Mvc.Routing.Localization
                 }
                 finally
                 {
+                    _routesLoaded = true;
                     _semaphore.Release();
                 }
             }
@@ -81,9 +83,8 @@ namespace AspNetCore.Mvc.Routing.Localization
              */
 
             var localizedRoutes = new List<LocalizedRoute>();
-            var routeDescriptors = _actionDescriptorCollectionProvider.ActionDescriptors.Items.Select(s => s as ControllerActionDescriptor);
 
-            foreach (var routeDescriptor in routeDescriptors)
+            foreach (var routeDescriptor in _controllerActionDescriptorProvider.Get())
             {
                 routeDescriptor.RouteValues.TryGetValue("controller", out var controller);
                 routeDescriptor.RouteValues.TryGetValue("action", out var action);

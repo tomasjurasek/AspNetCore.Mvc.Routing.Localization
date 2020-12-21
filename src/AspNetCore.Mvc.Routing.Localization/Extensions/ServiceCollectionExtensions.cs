@@ -9,6 +9,7 @@ namespace AspNetCore.Mvc.Routing.Localization.Extensions
         public static IServiceCollection AddLocalizedRouting(this IServiceCollection services)
         {
             services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            services.TryAddSingleton<IControllerActionDescriptorProvider, ControllerActionDescriptorProvider>();
             services.TryAddSingleton<ILocalizedRoutingDynamicRouteValueResolver, LocalizedRoutingDynamicRouteValueResolver>();
             services.TryAddSingleton<ILocalizedRoutingProvider, LocalizedRouteProvider>();
             return services;

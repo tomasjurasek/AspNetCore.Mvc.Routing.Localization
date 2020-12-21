@@ -22,6 +22,7 @@ namespace AspNetCore.Mvc.Routing.Localization.Tests
                 { typeof(IActionContextAccessor), typeof(ActionContextAccessor) },
                 { typeof(ILocalizedRoutingDynamicRouteValueResolver), typeof(LocalizedRoutingDynamicRouteValueResolver) },
                 { typeof(ILocalizedRoutingProvider), typeof(LocalizedRouteProvider) },
+                { typeof(IControllerActionDescriptorProvider), typeof(ControllerActionDescriptorProvider) },
              }
             );
         }
