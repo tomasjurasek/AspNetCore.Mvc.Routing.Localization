@@ -24,7 +24,7 @@ namespace AspNetCore.Mvc.Routing.Localization.Tests
         [Fact]
         public async Task ProvideRouteAsync_NotAnyRoute_GetNull()
         {
-            var route = await _localizedRoutingProvider.ProvideRouteAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<LocalizationDirection>());
+            var route = await _localizedRoutingProvider.ProvideRouteAsync("en-US", "controller", "action", LocalizationDirection.TranslatedToOriginal);
 
             route.Should().BeNull();
             _controllerActionDescriptorProvider.Received(1).Get();
@@ -33,13 +33,13 @@ namespace AspNetCore.Mvc.Routing.Localization.Tests
         [Fact]
         public async Task ProvideRouteAsync_NotAnyRouteAndCallMoreThenOne_JustOneInit()
         {
-            await _localizedRoutingProvider.ProvideRouteAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<LocalizationDirection>());
-            await _localizedRoutingProvider.ProvideRouteAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<LocalizationDirection>());
+            await _localizedRoutingProvider.ProvideRouteAsync("en-US", "controller", "action", LocalizationDirection.TranslatedToOriginal);
+            await _localizedRoutingProvider.ProvideRouteAsync("en-US", "controller", "action", LocalizationDirection.TranslatedToOriginal);
 
             _controllerActionDescriptorProvider.Received(1).Get();
         }
 
-        [Fact(Skip = "does not pass")]
+        [Fact]
         public async Task ProvideRouteAsync_HasNoAttributes_GetsDefaultRoute()
         {
             _controllerActionDescriptorProvider.Get()
@@ -63,7 +63,7 @@ namespace AspNetCore.Mvc.Routing.Localization.Tests
             route.Controller.Should().Be("NoAttributeController");
         }
 
-        [Fact(Skip = "does not pass")]
+        [Fact]
         public async Task ProvideRouteAsync_HasLocalizedRouteAttributes_GetsLocalizedRoute()
         {
             _controllerActionDescriptorProvider.Get()
@@ -87,7 +87,7 @@ namespace AspNetCore.Mvc.Routing.Localization.Tests
             route.Controller.Should().Be("TranslatedHome");
         }
 
-        [Fact(Skip ="does not pass")]
+        [Fact]
         public async Task ProvideRouteAsync_HasLocalizedRouteAttributes_GetsOriginalRoute()
         {
             _controllerActionDescriptorProvider.Get()
