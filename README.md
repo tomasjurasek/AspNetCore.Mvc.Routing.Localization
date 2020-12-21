@@ -11,7 +11,7 @@
 * RouteAttribute          - Action
 * Controller              - LocalizedRouteAttribute - not yet
 * Controller              - RouteAttribute
-* Controller              - Controller 
+* Controller              - Action 
 ## Setup
 Register the services into the `IServiceCollection`.
 ```csharp
