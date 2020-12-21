@@ -3,6 +3,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using NSubstitute;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -40,30 +41,6 @@ namespace AspNetCore.Mvc.Routing.Localization.Tests
         }
 
         [Fact]
-        public async Task ProvideRouteAsync_HasNoAttributes_GetsDefaultRoute()
-        {
-            _controllerActionDescriptorProvider.Get()
-                .Returns(new List<ControllerActionDescriptor>
-                {
-                    new ControllerActionDescriptor
-                    {
-                        RouteValues = new Dictionary<string, string>
-                        {
-                            { "controller", "NoAttributeController"},
-                            { "action", "NoAttributeAction"}
-                        },
-                        ControllerTypeInfo = typeof(NoAttributeController).GetTypeInfo(),
-                        MethodInfo = typeof(NoAttributeController).GetMethod("NoAttributeAction")
-                    }
-                });
-
-            var route = await _localizedRoutingProvider.ProvideRouteAsync(null, "NoAttributeController", "NoAttributeAction", LocalizationDirection.TranslatedToOriginal);
-
-            route.Action.Should().Be("NoAttributeAction");
-            route.Controller.Should().Be("NoAttributeController");
-        }
-
-        [Fact]
         public async Task ProvideRouteAsync_HasLocalizedRouteAttributes_GetsLocalizedRoute()
         {
             _controllerActionDescriptorProvider.Get()
@@ -87,8 +64,15 @@ namespace AspNetCore.Mvc.Routing.Localization.Tests
             route.Controller.Should().Be("TranslatedHome");
         }
 
-        [Fact]
-        public async Task ProvideRouteAsync_HasLocalizedRouteAttributes_GetsOriginalRoute()
+        [Theory]
+        [InlineData(typeof(NoAttributeController), "Index", "Home", "Index")]
+        [InlineData(typeof(HomeController), "Index", "TranslatedHome", "TranslatedIndex")]
+        [InlineData(typeof(HomeController1), "Index", "TranslatedHome", "TranslatedIndex")]
+        [InlineData(typeof(HomeController2), "Index", "TranslatedHome", "Index")]
+        [InlineData(typeof(HomeController3), "Index", "TranslatedHome", "TranslatedIndex")]
+        [InlineData(typeof(HomeController4), "Index", "TranslatedHome", "Index")]
+        public async Task ProvideRouteAsync_HasAttributes_GetsOriginalRoute(Type originalController, string originalAction,
+            string controller, string action)
         {
             _controllerActionDescriptorProvider.Get()
                 .Returns(new List<ControllerActionDescriptor>
@@ -100,12 +84,12 @@ namespace AspNetCore.Mvc.Routing.Localization.Tests
                             { "controller", "Home"},
                             { "action", "Index"}
                         },
-                        ControllerTypeInfo = typeof(HomeController).GetTypeInfo(),
-                        MethodInfo = typeof(HomeController).GetMethod("Index")
+                        ControllerTypeInfo = originalController.GetTypeInfo(),
+                        MethodInfo = originalController.GetMethod(originalAction)
                     }
                 });
 
-            var route = await _localizedRoutingProvider.ProvideRouteAsync("en-US", "TranslatedHome", "TranslatedIndex", LocalizationDirection.TranslatedToOriginal);
+            var route = await _localizedRoutingProvider.ProvideRouteAsync("en-US", controller, action, LocalizationDirection.TranslatedToOriginal);
 
             route.Action.Should().Be("Index");
             route.Controller.Should().Be("Home");
@@ -113,7 +97,7 @@ namespace AspNetCore.Mvc.Routing.Localization.Tests
 
         public sealed class NoAttributeController
         {
-            public ActionResult NoAttributeAction()
+            public ActionResult Index()
             {
                 return null;
             }
@@ -141,6 +125,25 @@ namespace AspNetCore.Mvc.Routing.Localization.Tests
 
         [LocalizedRoute("en-US", "TranslatedHome")]
         private sealed class HomeController2
+        {
+            public ActionResult Index()
+            {
+                return null;
+            }
+        }
+
+        [Route("TranslatedHome")]
+        private sealed class HomeController3
+        {
+            [Route("TranslatedIndex")]
+            public ActionResult Index()
+            {
+                return null;
+            }
+        }
+
+        [Route("TranslatedHome")]
+        private sealed class HomeController4
         {
             public ActionResult Index()
             {
