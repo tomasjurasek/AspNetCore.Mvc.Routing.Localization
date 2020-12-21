@@ -4,8 +4,8 @@
 
 > WARNING: We support only the **RouteDataRequestCultureProvider** with the RouteDataStringKey = "culture" and a combination of the attributes with this priority (Controller - Action). 
 * LocalizedRouteAttribute - LocalizedRouteAttribute
-* LocalizedRouteAttribute - RouteAttribute
-* LocalizedRouteAttribute - Action 
+* RouteAttribute - LocalizedRouteAttribute
+* Controller - LocalizedRouteAttribute 
 
 ## Setup
 Register the services into the `IServiceCollection`.
