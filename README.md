@@ -2,7 +2,22 @@
 ![Build](https://github.com/tomasjurasek/AspNetCore.Mvc.Routing.Localization/workflows/Build/badge.svg)
 ![Nuget](https://img.shields.io/nuget/v/AspNetCore.Mvc.Routing.Localization)
 
-> WARNING: We support only the **RouteDataRequestCultureProvider** with the RouteDataStringKey = "culture" and a combination of the attributes with this priority (Controller - Action). 
+> WARNING: We support only the **RouteDataRequestCultureProvider** with the RouteDataStringKey = "culture".
+
+The supported combinations for creating a translated route.
+
+| Status   |      Controller      | Action |
+|----------|--------------------|-------|
+| Supported | LocalizedRouteAttribute | LocalizedRouteAttribute |
+| Supported | LocalizedRouteAttribute | RouteAttribute |
+| Supported | LocalizedRouteAttributed | Action |
+| Not Supported | RouteAttribute | LocalizedRouteAttribute |
+| Supported | RouteAttribute | RouteAttribute |
+| Supported | RouteAttribute | Action |
+| Not Supported | Controller | LocalizedRouteAttribute |
+| Supported | Controller | RouteAttribute |
+| Supported | Controller | Action |
+
 * LocalizedRouteAttribute - LocalizedRouteAttribute
 * LocalizedRouteAttribute - RouteAttribute
 * LocalizedRouteAttribute - Action 
