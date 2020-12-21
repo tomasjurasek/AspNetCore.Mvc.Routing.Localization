@@ -4,7 +4,7 @@
 
 > WARNING: We support only the **RouteDataRequestCultureProvider** with the RouteDataStringKey = "culture".
 
-The supported combinations for creating a translated route.
+The supported combinations of attributes for creating a translated route.
 
 | Status   |      Controller      | Action |
 |:--------:|:--------------------:|:------:|
