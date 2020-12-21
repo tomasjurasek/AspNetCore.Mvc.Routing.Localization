@@ -88,6 +88,9 @@ namespace AspNetCore.Mvc.Routing.Localization
                 routeDescriptor.RouteValues.TryGetValue("controller", out var controller);
                 routeDescriptor.RouteValues.TryGetValue("action", out var action);
 
+                //Always add default name
+                AddLocalizedRoute(null, controller, action);
+
                 var controllerLocalizedRouteAttributes = GetControllersAttribute<LocalizedRouteAttribute>(routeDescriptor)
                     .Distinct(); //Implement IEqualityComparer
 
@@ -105,7 +108,10 @@ namespace AspNetCore.Mvc.Routing.Localization
                     var controllerRouteAttribute = GetControllersAttribute<RouteAttribute>(routeDescriptor)
                         .FirstOrDefault();
 
-                    AddLocalizedRoute(null, controllerRouteAttribute?.Template ?? controller, actionRouteAttribute?.Template ?? action);
+                    if (controllerRouteAttribute != null || actionRouteAttribute != null)
+                    {
+                        AddLocalizedRoute(null, controllerRouteAttribute?.Template ?? controller, actionRouteAttribute?.Template ?? action);
+                    }
                 }
 
                 foreach (var controllerLocalizedRouteAttribute in controllerLocalizedRouteAttributes)
