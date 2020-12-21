@@ -23,12 +23,12 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: Test
       working-directory: src
-      run: dotnet test --no-restore --verbosity normal
+      run: dotnet test --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
     - uses: codecov/codecov-action@v1
       with:
         token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
         file: ./coverage.xml # optional
-        files: ./coverage1.xml,./coverage2.xml # optional
+        files: ./coverage1.xml,./opencover.xml # optional
         flags: unittests # optional
         name: codecov-umbrella # optional
         fail_ci_if_error: false # optional (default = false)
