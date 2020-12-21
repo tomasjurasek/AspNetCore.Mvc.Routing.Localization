@@ -23,11 +23,11 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: Test
       working-directory: src
-      run: dotnet test --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
+      run: dotnet test --no-restore --verbosity normal --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
     - uses: codecov/codecov-action@v1
       with:
         token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
-        file: /home/runner/work/AspNetCore.Mvc.Routing.Localization/src/AspNetCore.Mvc.Routing.Localization.Tests/coverage.cobertura.xml # optional
+        file: ./coverage.cobertura.xml # optional
         flags: unittests # optional
         name: codecov-umbrella # optional
         fail_ci_if_error: false # optional (default = false)
