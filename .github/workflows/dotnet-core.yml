@@ -23,13 +23,10 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: Test
       working-directory: src
-      run: dotnet test --no-restore --verbosity normal --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=cobertura
-    - uses: codecov/codecov-action@v1
+      run: dotnet test --no-restore --verbosity normal --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
+    - name: Publish coverage report to coveralls.io
+      uses: coverallsapp/github-action@master
       with:
-        token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
-        file: ./coverage.cobertura.xml # optional
-        directory: /home/runner/work/AspNetCore.Mvc.Routing.Localization/AspNetCore.Mvc.Routing.Localization/src/AspNetCore.Mvc.Routing.Localization.Tests/TestResults 
-        flags: unittests # optional
-        name: codecov-umbrella # optional
-        fail_ci_if_error: false # optional (default = false)
-        verbose: true # optional (default = false)
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: ./src/AspNetCore.Mvc.Routing.Localization.Tests/MyLibrary.Tests/TestResults/coverage.info
+ 
