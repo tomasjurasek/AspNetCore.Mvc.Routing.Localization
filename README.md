@@ -18,15 +18,6 @@ The supported combinations for creating a translated route.
 | Supported | Controller | RouteAttribute |
 | Supported | Controller | Action |
 
-* LocalizedRouteAttribute - LocalizedRouteAttribute
-* LocalizedRouteAttribute - RouteAttribute
-* LocalizedRouteAttribute - Action 
-* RouteAttribute          - LocalizedRouteAttribute - not yet
-* RouteAttribute          - RouteAttribute
-* RouteAttribute          - Action
-* Controller              - LocalizedRouteAttribute - not yet
-* Controller              - RouteAttribute
-* Controller              - Action 
 ## Setup
 Register the services into the `IServiceCollection`.
 ```csharp
