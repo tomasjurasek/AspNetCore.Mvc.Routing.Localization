@@ -7,10 +7,10 @@
 The supported combinations for creating a translated route.
 
 | Status   |      Controller      | Action |
-|----------|--------------------|-------|
+|:--------:|:--------------------:|:------:|
 | Supported | LocalizedRouteAttribute | LocalizedRouteAttribute |
 | Supported | LocalizedRouteAttribute | RouteAttribute |
-| Supported | LocalizedRouteAttributed | Action |
+| Supported | LocalizedRouteAttribute | Action |
 | Not Supported | RouteAttribute | LocalizedRouteAttribute |
 | Supported | RouteAttribute | RouteAttribute |
 | Supported | RouteAttribute | Action |
