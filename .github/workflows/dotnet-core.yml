@@ -27,6 +27,6 @@ jobs:
     - name: Publish coverage report to coveralls.io
       uses: coverallsapp/github-action@master
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ secrets.REPO_TOKEN }}
         path-to-lcov: ./src/AspNetCore.Mvc.Routing.Localization.Tests/MyLibrary.Tests/TestResults/coverage.info
  
