@@ -99,7 +99,6 @@ namespace AspNetCore.Mvc.Routing.Localization
                 var actionRouteAttribute = GetMethodsAttribute<RouteAttribute>(routeDescriptor)
                      .FirstOrDefault();
 
-
                 foreach (var controllerLocalizedRouteAttribute in controllerLocalizedRouteAttributes)
                 {
                     var actionLocalizedRouteAttribute = actionLocalizedRouteAttributes
@@ -133,11 +132,11 @@ namespace AspNetCore.Mvc.Routing.Localization
         private RouteInformation GetLocalizedRoute(string culture, string controller, string action, LocalizationDirection direction)
         {
             Func<string, LocalizedRoute> translated = (currentCulture) =>
-                 _routes
+                _routes
                     .FirstOrDefault(s => s.Culture == currentCulture && s.Translated?.Action == action && s.Translated?.Controller == controller);
 
             Func<string, LocalizedRoute> original = (currentCulture) =>
-                    _routes
+                _routes
                     .FirstOrDefault(s => s.Culture == currentCulture && s.Original?.Action == action && s.Original?.Controller == controller);
 
             return direction == LocalizationDirection.TranslatedToOriginal
