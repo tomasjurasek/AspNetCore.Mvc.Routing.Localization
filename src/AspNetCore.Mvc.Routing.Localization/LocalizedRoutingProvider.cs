@@ -71,12 +71,12 @@ namespace AspNetCore.Mvc.Routing.Localization
                 LocalizedRouteController -  OriginalAction    
             
                 RouteController - LocalizedRouteAction - not yet
-                RouteController - RouteAction - not yet
-                RouteController - OriginalAction - not yet
+                RouteController - RouteAction
+                RouteController - OriginalAction
 
                 OriginalController - LocalizedRouteAction - not yet
-                OriginalController - RouteAction - not yet
-                OriginalController - OriginalAction - not yet    
+                OriginalController - RouteAction
+                OriginalController - OriginalAction    
 
              */
 
@@ -99,6 +99,15 @@ namespace AspNetCore.Mvc.Routing.Localization
                 var actionRouteAttribute = GetMethodsAttribute<RouteAttribute>(routeDescriptor)
                      .FirstOrDefault();
 
+                //Combinations RouteController or OriginalController
+                if (!controllerLocalizedRouteAttributes.Any())
+                {
+                    var controllerRouteAttribute = GetControllersAttribute<RouteAttribute>(routeDescriptor)
+                        .FirstOrDefault();
+
+                    AddLocalizedRoute(null, controllerRouteAttribute?.Template ?? controller, actionRouteAttribute?.Template ?? action);
+                }
+
                 foreach (var controllerLocalizedRouteAttribute in controllerLocalizedRouteAttributes)
                 {
                     var actionLocalizedRouteAttribute = actionLocalizedRouteAttributes
@@ -106,23 +115,23 @@ namespace AspNetCore.Mvc.Routing.Localization
 
                     if (actionLocalizedRouteAttribute != null) // LocalizedRouteAttribute
                     {
-                        AddLocalizedRoute(actionLocalizedRouteAttribute.Template);
+                        AddLocalizedRoute(controllerLocalizedRouteAttribute.Culture, controllerLocalizedRouteAttribute.Template, actionLocalizedRouteAttribute.Template);
                     }
                     else if (actionRouteAttribute != null) // RouteAttribute
                     {
-                        AddLocalizedRoute(actionRouteAttribute.Template);
+                        AddLocalizedRoute(controllerLocalizedRouteAttribute.Culture, controllerLocalizedRouteAttribute.Template, actionRouteAttribute.Template);
                     }
                     else // Original
                     {
-                        AddLocalizedRoute(action);
+                        AddLocalizedRoute(controllerLocalizedRouteAttribute.Culture, controllerLocalizedRouteAttribute.Template, action);
                     }
+                }
 
-                    void AddLocalizedRoute(string actionName)
-                    {
-                        localizedRoutes.Add(LocalizedRoute.Create(controllerLocalizedRouteAttribute.Culture,
-                                                    RouteInformation.Create(controller, action),
-                                                    RouteInformation.Create(controllerLocalizedRouteAttribute.Template, actionName)));
-                    }
+                void AddLocalizedRoute(string cultureName, string controllerName, string actionName)
+                {
+                    localizedRoutes.Add(LocalizedRoute.Create(cultureName,
+                                                RouteInformation.Create(controller, action),
+                                                RouteInformation.Create(controllerName, actionName)));
                 }
             }
 
