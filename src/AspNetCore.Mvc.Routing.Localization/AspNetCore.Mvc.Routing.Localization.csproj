@@ -12,7 +12,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/tomasjurasek/AspNetCore.Mvc.Routing.Localization</PackageProjectUrl>
     <RepositoryUrl></RepositoryUrl>
-    <Version>1.0.0-beta7</Version>
+    <Version>1.0.0-beta8</Version>
     <RepositoryType>git</RepositoryType>
     <PackageTags>aspnetcore;aspnetmvc;routing;localization</PackageTags>
     <Company />
