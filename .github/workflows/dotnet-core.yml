@@ -27,7 +27,7 @@ jobs:
     - uses: codecov/codecov-action@v1
       with:
         token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
-        file: ./AspNetCore.Mvc.Routing.Localization.Tests/TestResults/coverage.cobertura.xml # optional
+        file: /home/runner/work/AspNetCore.Mvc.Routing.Localization/AspNetCore.Mvc.Routing.Localization/src/AspNetCore.Mvc.Routing.Localization.Tests/TestResults/coverage.cobertura.xml # optional
         flags: unittests # optional
         name: codecov-umbrella # optional
         fail_ci_if_error: false # optional (default = false)
