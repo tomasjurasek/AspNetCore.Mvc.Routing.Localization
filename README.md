@@ -66,8 +66,10 @@ var options = new RequestLocalizationOptions
     SupportedUICultures = supportedCultures
 };
 
-options.RequestCultureProviders.Clear();
-options.RequestCultureProviders.Insert(0, new RouteDataRequestCultureProvider() { RouteDataStringKey = "culture" });
+options.RequestCultureProviders = new List<IRequestCultureProvider>
+{
+    new RouteDataRequestCultureProvider() { RouteDataStringKey = "culture" }
+};
 
 app.UseRequestLocalization(options);
 ```
