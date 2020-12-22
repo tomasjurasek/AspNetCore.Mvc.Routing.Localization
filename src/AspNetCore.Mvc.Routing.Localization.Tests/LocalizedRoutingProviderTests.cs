@@ -40,62 +40,62 @@ namespace AspNetCore.Mvc.Routing.Localization.Tests
             _controllerActionDescriptorProvider.Received(1).Get();
         }
 
-        [Fact]
-        public async Task ProvideRouteAsync_HasLocalizedRouteAttributes_GetsLocalizedRoute()
+        [Theory]
+        [InlineData(typeof(NoAttributeController), "Index", "NoAttributeController", "Index")]
+        [InlineData(typeof(HomeController), "Index", "TranslatedHome", "TranslatedIndex")]
+        [InlineData(typeof(HomeController1), "Index", "TranslatedHome", "TranslatedIndex")]
+        [InlineData(typeof(HomeController2), "Index", "TranslatedHome", "Index")]
+        [InlineData(typeof(HomeController3), "Index", "HomeController3", "Index")]
+        [InlineData(typeof(HomeController4), "Index", "HomeController4", "Index")]
+        public async Task ProvideRouteAsync_AttributesCombinations_GetsLocalizedRoute(Type originalController, string originalAction,
+            string controller, string action)
         {
             _controllerActionDescriptorProvider.Get()
-                .Returns(new List<ControllerActionDescriptor>
-                {
-                    new ControllerActionDescriptor
-                    {
-                        RouteValues = new Dictionary<string, string>
-                        {
-                            { "controller", "Home"},
-                            { "action", "Index"}
-                        },
-                        ControllerTypeInfo = typeof(HomeController).GetTypeInfo(),
-                        MethodInfo = typeof(HomeController).GetMethod("Index")
-                    }
-                });
+                .Returns(GetControllerActionDescriptor(originalController, originalAction));
 
-            var route = await _localizedRoutingProvider.ProvideRouteAsync("en-US", "Home", "Index", LocalizationDirection.OriginalToTranslated);
+            var route = await _localizedRoutingProvider.ProvideRouteAsync("en-US", originalController.Name, "Index", LocalizationDirection.OriginalToTranslated);
 
-            route.Action.Should().Be("TranslatedIndex");
-            route.Controller.Should().Be("TranslatedHome");
+            route.Action.Should().Be(action);
+            route.Controller.Should().Be(controller);
         }
 
         [Theory]
-        [InlineData(typeof(NoAttributeController), "Index", "Home", "Index")]
+        [InlineData(typeof(NoAttributeController), "Index", "NoAttributeController", "Index")]
         [InlineData(typeof(HomeController), "Index", "TranslatedHome", "TranslatedIndex")]
         [InlineData(typeof(HomeController1), "Index", "TranslatedHome", "TranslatedIndex")]
         [InlineData(typeof(HomeController2), "Index", "TranslatedHome", "Index")]
         [InlineData(typeof(HomeController3), "Index", "TranslatedHome", "TranslatedIndex")]
         [InlineData(typeof(HomeController4), "Index", "TranslatedHome", "Index")]
-        public async Task ProvideRouteAsync_HasAttributes_GetsOriginalRoute(Type originalController, string originalAction,
+        public async Task ProvideRouteAsync_AttributesCombinations_GetsOriginalRoute(Type originalController, string originalAction,
             string controller, string action)
         {
             _controllerActionDescriptorProvider.Get()
-                .Returns(new List<ControllerActionDescriptor>
+                .Returns(GetControllerActionDescriptor(originalController, originalAction));
+
+            var route = await _localizedRoutingProvider.ProvideRouteAsync("en-US", controller, action, LocalizationDirection.TranslatedToOriginal);
+
+            route.Action.Should().Be("Index");
+            route.Controller.Should().Be(originalController.Name);
+        }
+
+        private static List<ControllerActionDescriptor> GetControllerActionDescriptor(Type originalController, string originalAction)
+        {
+            return new List<ControllerActionDescriptor>
                 {
                     new ControllerActionDescriptor
                     {
                         RouteValues = new Dictionary<string, string>
                         {
-                            { "controller", "Home"},
-                            { "action", "Index"}
+                            { "controller", originalController.Name},
+                            { "action", originalAction}
                         },
                         ControllerTypeInfo = originalController.GetTypeInfo(),
                         MethodInfo = originalController.GetMethod(originalAction)
                     }
-                });
-
-            var route = await _localizedRoutingProvider.ProvideRouteAsync("en-US", controller, action, LocalizationDirection.TranslatedToOriginal);
-
-            route.Action.Should().Be("Index");
-            route.Controller.Should().Be("Home");
+                };
         }
 
-        public sealed class NoAttributeController
+        private sealed class NoAttributeController
         {
             public ActionResult Index()
             {
