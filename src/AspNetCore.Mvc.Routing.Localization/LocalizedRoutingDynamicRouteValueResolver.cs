@@ -14,10 +14,12 @@ namespace AspNetCore.Mvc.Routing.Localization
 
         public async Task<RouteValueDictionary> ResolveAsync(RouteValueDictionary values)
         {
-            if (!values.ContainsKey("culture") || !values.ContainsKey("controller") || !values.ContainsKey("action")) return values;
+            if (!values.TryGetValue("culture", out var culture) ||
+                !values.TryGetValue("controller", out var controller) ||
+                !values.TryGetValue("action", out var action)) return values;
 
-            var routeInformationMetadata = await _localizedRoutingProvider.ProvideRouteAsync((string)values["culture"], (string)values["controller"], (string)values["action"], LocalizationDirection.TranslatedToOriginal);
-          
+            var routeInformationMetadata = await _localizedRoutingProvider.ProvideRouteAsync((string)culture, (string)controller, (string)action, LocalizationDirection.TranslatedToOriginal);
+
             values["controller"] = routeInformationMetadata.Controller;
             values["action"] = routeInformationMetadata.Action;
 

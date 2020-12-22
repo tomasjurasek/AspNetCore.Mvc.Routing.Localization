@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Globalization;
 using AspNetCore.Mvc.Routing.Localization.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -61,8 +62,11 @@ namespace LocalizedRoutingSample.Mvc
                 SupportedUICultures = supportedCultures
             };
 
-            options.RequestCultureProviders.Clear();
-            options.RequestCultureProviders.Insert(0, new RouteDataRequestCultureProvider() { RouteDataStringKey = "culture" });
+            options.RequestCultureProviders = new List<IRequestCultureProvider>
+            {
+                new RouteDataRequestCultureProvider() { RouteDataStringKey = "culture" }
+            };
+
             app.UseRequestLocalization(options);
 
             app.UseAuthorization();

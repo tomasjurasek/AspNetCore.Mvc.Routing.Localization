@@ -2,7 +2,6 @@
 using AspNetCore.Mvc.Routing.Localization.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +16,7 @@ namespace AspNetCore.Mvc.Routing.Localization
     /// </summary>
     public class LocalizedRouteProvider : ILocalizedRoutingProvider
     {
-        private IEnumerable<LocalizedRoute> _routes = new List<LocalizedRoute>();
+        private IEnumerable<LocalizedRoute> _routes = Enumerable.Empty<LocalizedRoute>();
         private bool _routesLoaded = false;
         private SemaphoreSlim _semaphore = new SemaphoreSlim(1);
         private readonly IControllerActionDescriptorProvider _controllerActionDescriptorProvider;
@@ -39,18 +38,18 @@ namespace AspNetCore.Mvc.Routing.Localization
         {
             if (!_routesLoaded && !_routes.Any())
             {
+                await _semaphore.WaitAsync();
                 try
                 {
-                    await _semaphore.WaitAsync();
                     _routes = await GetRoutesAsync();
+                    _routesLoaded = true;
                 }
-                catch (Exception)
+                catch
                 {
                     throw;
                 }
                 finally
                 {
-                    _routesLoaded = true;
                     _semaphore.Release();
                 }
             }
