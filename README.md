@@ -4,6 +4,14 @@
 
 > WARNING: We support only the **RouteDataRequestCultureProvider** with the RouteDataStringKey = "culture".
 
+
+## Summary
+The package localizes your routes by the `LocalizedRouteAttribute` and creates localized links by the taghelper `<localized-route ..></localized-route>`.  
+
+For example:  
+`/en-US/Products`  
+`/cs-CZ/Produkty`
+
 The supported combinations of attributes for creating a translated route.
 
 | Status   |      Controller      | Action |
