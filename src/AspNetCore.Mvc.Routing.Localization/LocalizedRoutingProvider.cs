@@ -27,7 +27,7 @@ namespace AspNetCore.Mvc.Routing.Localization
         }
 
         /// <summary>
-        /// This method provides route - depends on direction.
+        /// This method provides a route - depends on the direction.
         /// </summary>
         /// <param name="culture"></param>
         /// <param name="controler"></param>
