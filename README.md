@@ -9,9 +9,6 @@ For example:
 `/en-US/Products`  
 `/cs-CZ/Produkty`
 
-> WARNING: We support only the **RouteDataRequestCultureProvider** with the RouteDataStringKey = "culture".
-
-
 The supported combinations of attributes for creating a translated route.
 
 | Status   |      Controller      | Action |
@@ -27,6 +24,9 @@ The supported combinations of attributes for creating a translated route.
 | Supported | Controller | Action |
 
 ## Setup
+
+> WARNING: We support only the **RouteDataRequestCultureProvider** with the RouteDataStringKey = "culture".
+
 Register the services into the `IServiceCollection`.
 ```csharp
  services.AddLocalizedRouting();
