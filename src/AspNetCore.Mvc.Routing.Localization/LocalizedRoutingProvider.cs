@@ -44,10 +44,6 @@ namespace AspNetCore.Mvc.Routing.Localization
                     _routes = await GetRoutesAsync();
                     _routesLoaded = true;
                 }
-                catch
-                {
-                    throw;
-                }
                 finally
                 {
                     _semaphore.Release();
