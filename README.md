@@ -2,7 +2,12 @@
 ![Build](https://github.com/tomasjurasek/AspNetCore.Mvc.Routing.Localization/workflows/Build/badge.svg)
 ![Nuget](https://img.shields.io/nuget/v/AspNetCore.Mvc.Routing.Localization)
 
-> WARNING: We support only the **RouteDataRequestCultureProvider** with the RouteDataStringKey = "culture".
+## Summary
+The package localizes your routes by the `LocalizedRouteAttribute` - also working with combinations of RouteAttribute or original controller/action name and creates localized links (defined by these attributes) by the `<localized-route ..></localized-route>` tagHelper.
+
+For example:  
+`/en-US/Products`  
+`/cs-CZ/Produkty`
 
 The supported combinations of attributes for creating a translated route.
 
@@ -19,6 +24,9 @@ The supported combinations of attributes for creating a translated route.
 | Supported | Controller | Action |
 
 ## Setup
+
+> WARNING: We support only the **RouteDataRequestCultureProvider** with the RouteDataStringKey = "culture".
+
 Register the services into the `IServiceCollection`.
 ```csharp
  services.AddLocalizedRouting();
