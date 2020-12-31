@@ -19,6 +19,7 @@ namespace AspNetCore.Mvc.Routing.Localization
         private IEnumerable<LocalizedRoute> _routes = Enumerable.Empty<LocalizedRoute>();
         private bool _routesLoaded = false;
         private SemaphoreSlim _semaphore = new SemaphoreSlim(1);
+
         private readonly IControllerActionDescriptorProvider _controllerActionDescriptorProvider;
 
         public LocalizedRouteProvider(IControllerActionDescriptorProvider controllerActionDescriptorProvider)
