@@ -3,13 +3,13 @@
 ![Nuget](https://img.shields.io/nuget/v/AspNetCore.Mvc.Routing.Localization)
 
 ## Summary
-The package localizes your routes by the `LocalizedRouteAttribute` - also working with combinations of RouteAttribute or original controller/action name and creates localized links (defined by these attributes) by the `<localized-route ..></localized-route>` tagHelper.
+The package localizes your routes by the `LocalizedRouteAttribute` and by the `localized-route` tag helper.
 
 For example:  
 `/en-US/Products`  
 `/cs-CZ/Produkty`
 
-The supported combinations of attributes for creating a translated route.
+Supported combinations:
 
 | Status   |      Controller      | Action |
 |:--------:|:--------------------:|:------:|
@@ -51,7 +51,7 @@ public class LocalizedRoutingTranslationTransformer : DynamicRouteValueTransform
 ```csharp
 services.AddSingleton<LocalizedRoutingTranslationTransformer>();
 ```
-Register your `DynamicRouteValueTransformer` in the endpoints middleware with the following template.
+Register your implementation of the `DynamicRouteValueTransformer` into the endpoints middleware with the following template.
 ```csharp
 app.UseEndpoints(endpoints =>
 {
@@ -82,13 +82,8 @@ options.RequestCultureProviders = new List<IRequestCultureProvider>
 app.UseRequestLocalization(options);
 ```
 
-Register the TagHelper from the `AspNetCore.Mvc.Routing.Localization` package in the `_ViewImports.cshtml` file which offers to you localize your route in Views.
+Register the tag helper from the `AspNetCore.Mvc.Routing.Localization` package into the your `_ViewImports.cshtml` file, which offers to you localize your route in Views.
 ```csharp
 @addTagHelper *, AspNetCore.Mvc.Routing.Localization
 ```
-
-## Usage
-
-* `LocalizedRouteAttribute` - the attribute defines the localized route. Example `[LocalizedRoute("en-US", "Home")`.
-* `<localized-route></localized-route>` - the taghelper which localizes your links defined by the `LocalizedRouteAttribute` attributes. Example `<localized-route asp-controller="Home" asp-action="Index">Home</localized-route>`.
 
