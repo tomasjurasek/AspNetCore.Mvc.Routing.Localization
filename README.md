@@ -78,7 +78,7 @@ options.RequestCultureProviders = new List<IRequestCultureProvider>
 app.UseRequestLocalization(options);
 ```
 
-Register the tag helper from the `AspNetCore.Mvc.Routing.Localization` package into the your `_ViewImports.cshtml` file, which offers to you localize your route in Views.
+Register the tag helper from the `AspNetCore.Mvc.Routing.Localization` package into the `_ViewImports.cshtml` file, which offers to you localize your routes in a Views.
 ```csharp
 @addTagHelper *, AspNetCore.Mvc.Routing.Localization
 ```
