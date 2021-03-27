@@ -3,7 +3,7 @@
 ![Nuget](https://img.shields.io/nuget/v/AspNetCore.Mvc.Routing.Localization)
 
 ## Summary
-The package localizes your routes by the `LocalizedRouteAttribute` and by the `localized-route` tag helper.
+The package [AspNetCore.Mvc.Routing.Localization](https://www.nuget.org/packages/AspNetCore.Mvc.Routing.Localization) helps you create localized routes.
 
 For example:  
 `/en-US/Products`  
