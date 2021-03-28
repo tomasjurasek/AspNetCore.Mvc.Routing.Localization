@@ -68,20 +68,13 @@ namespace AspNetCore.Mvc.Routing.Localization
         protected virtual async Task<IEnumerable<LocalizedRoute>> GetRoutesAsync()
         {
             /* 
-                If there is no LocalizedRouteAction it is for all cultures
-                
+               
                 LocalizedRouteController -  LocalizedRouteAction
                 LocalizedRouteController -  RouteAction
                 LocalizedRouteController -  OriginalAction    
-            
                 RouteController - LocalizedRouteAction 
-                RouteController - RouteAction
-                RouteController - OriginalAction
-
-                OriginalController - LocalizedRouteAction 
-                OriginalController - RouteAction
-                OriginalController - OriginalAction    
-
+                OriginalController - LocalizedRouteAction  
+            
              */
 
             var localizedRoutes = new List<LocalizedRoute>();
