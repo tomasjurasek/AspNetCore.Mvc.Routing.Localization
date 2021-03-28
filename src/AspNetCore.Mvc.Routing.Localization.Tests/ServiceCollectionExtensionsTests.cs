@@ -1,9 +1,11 @@
 ﻿using AspNetCore.Mvc.Routing.Localization.Extensions;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using Xunit;
 
 namespace AspNetCore.Mvc.Routing.Localization.Tests
@@ -30,7 +32,17 @@ namespace AspNetCore.Mvc.Routing.Localization.Tests
         [Fact]
         public void AddLocalizedRouting_AllServicesAreRegistered()
         {
+            var supportedCultures = new[]
+            {
+                new CultureInfo("en-US")
+            };
+
             var serviceProvider = _serviceCollection
+                .Configure<RequestLocalizationOptions>(options =>
+                {
+                    options.SupportedCultures = supportedCultures;
+                    options.SupportedUICultures = supportedCultures;
+                })
                 .AddLocalizedRouting()
                 .AddSingleton<IActionDescriptorCollectionProvider, FakeActionDescriptorCollectionProvider>()
                 .BuildServiceProvider();
