@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using LocalizedRoutingSample.Mvc.Models;
 using AspNetCore.Mvc.Routing.Localization.Attributes;
-using AspNetCore.Mvc.Routing.Localization;
-using System.Threading.Tasks;
 
 namespace LocalizedRoutingSample.Mvc.Controllers
 {
@@ -11,12 +9,10 @@ namespace LocalizedRoutingSample.Mvc.Controllers
     [LocalizedRoute("cs-CZ", "Domu")]
     public class HomeController : Controller
     {
-        private readonly ILocalizedRoutingProvider _localizedRoutingProvider;
-
-        public HomeController(ILocalizedRoutingProvider localizedRoutingProvider)
+        public HomeController()
         {
-            _localizedRoutingProvider = localizedRoutingProvider;
         }
+
         [LocalizedRoute("en-US", "Index")]
         [LocalizedRoute("cs-CZ", "Uvod")]
         public IActionResult Index()
