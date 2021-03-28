@@ -13,11 +13,7 @@ Supported combinations:
 | Supported | LocalizedRouteAttribute | RouteAttribute |
 | Supported | LocalizedRouteAttribute | Action |
 | Supported | RouteAttribute | LocalizedRouteAttribute |
-| Supported | RouteAttribute | RouteAttribute |
-| Supported | RouteAttribute | Action |
 | Supported | Controller | LocalizedRouteAttribute |
-| Supported | Controller | RouteAttribute |
-| Supported | Controller | Action |
 
 ## Setup
 
