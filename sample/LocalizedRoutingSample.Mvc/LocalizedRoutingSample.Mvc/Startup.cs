@@ -66,19 +66,7 @@ namespace LocalizedRoutingSample.Mvc
                 new CultureInfo("en-US"),
             };
 
-            var options = new RequestLocalizationOptions
-            {
-                DefaultRequestCulture = new RequestCulture("en-US"),
-                SupportedCultures = supportedCultures,
-                SupportedUICultures = supportedCultures
-            };
-
-            options.RequestCultureProviders = new List<IRequestCultureProvider>
-            {
-                new RouteDataRequestCultureProvider() { RouteDataStringKey = "culture" }
-            };
-
-            app.UseRequestLocalization(options);
+            app.UseLocalizedRouting("en-US", supportedCultures);
 
             app.UseEndpoints(endpoints =>
             {
