@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace AspNetCore.Mvc.Routing.Localization
 {
     /// <summary>
-    /// This class loads and provides localized routes. 
+    /// Loads and provides localized routes. 
     /// You can inherit it and override the source of localized routes.
     /// </summary>
     public class LocalizedRouteProvider : ILocalizedRoutingProvider
@@ -34,7 +34,7 @@ namespace AspNetCore.Mvc.Routing.Localization
         }
 
         /// <summary>
-        /// This method provides a route - depends on the direction.
+        /// Provides a route - depends on the direction.
         /// </summary>
         /// <param name="culture"></param>
         /// <param name="controler"></param>
@@ -61,7 +61,7 @@ namespace AspNetCore.Mvc.Routing.Localization
         }
 
         /// <summary>
-        /// This method creates localized routes. 
+        /// Creates localized routes 
         /// You can override this method to change the source of localized routes - DB, File,...
         /// </summary>
         /// <returns>Localized routes</returns>
@@ -74,11 +74,11 @@ namespace AspNetCore.Mvc.Routing.Localization
                 LocalizedRouteController -  RouteAction
                 LocalizedRouteController -  OriginalAction    
             
-                RouteController - LocalizedRouteAction - not yet
+                RouteController - LocalizedRouteAction 
                 RouteController - RouteAction
                 RouteController - OriginalAction
 
-                OriginalController - LocalizedRouteAction - not yet
+                OriginalController - LocalizedRouteAction 
                 OriginalController - RouteAction
                 OriginalController - OriginalAction    
 
