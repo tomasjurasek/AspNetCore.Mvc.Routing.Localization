@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using LocalizedRoutingSample.Mvc.Models;
 using AspNetCore.Mvc.Routing.Localization.Attributes;
+using AspNetCore.Mvc.Routing.Localization;
+using System.Threading.Tasks;
 
 namespace LocalizedRoutingSample.Mvc.Controllers
 {
@@ -9,8 +11,11 @@ namespace LocalizedRoutingSample.Mvc.Controllers
     [LocalizedRoute("cs-CZ", "Domu")]
     public class HomeController : Controller
     {
-        public HomeController()
+        private readonly ILocalizedRoutingProvider _localizedRoutingProvider;
+
+        public HomeController(ILocalizedRoutingProvider localizedRoutingProvider)
         {
+            _localizedRoutingProvider = localizedRoutingProvider;
         }
 
         [LocalizedRoute("en-US", "Index")]
@@ -30,6 +35,17 @@ namespace LocalizedRoutingSample.Mvc.Controllers
         public IActionResult Test()
         {
             return View();
+        }
+
+        public async Task<IActionResult> Language(string language)
+        {
+            var routeInformation = await _localizedRoutingProvider.ProvideRouteAsync(language, "Home", "Index", LocalizationDirection.OriginalToTranslated);
+            return RedirectToRoute(new
+            {
+                controller = routeInformation.Controller,
+                action = routeInformation.Action,
+                culture = language
+            });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
