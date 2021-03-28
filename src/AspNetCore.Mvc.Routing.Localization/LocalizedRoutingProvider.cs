@@ -130,7 +130,7 @@ namespace AspNetCore.Mvc.Routing.Localization
                     {
                         foreach (var culture in _supportedCultures)
                         {
-                            AddLocalizedRoute(culture.Name, controller, action);
+                            AddLocalizedRoute(culture.Name, controllerRouteAttribute.Template, action);
                         }
                     }
                 }

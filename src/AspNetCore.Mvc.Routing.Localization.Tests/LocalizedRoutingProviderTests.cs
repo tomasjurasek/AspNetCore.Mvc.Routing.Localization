@@ -53,8 +53,8 @@ namespace AspNetCore.Mvc.Routing.Localization.Tests
         [InlineData(typeof(HomeController), "Index", "TranslatedHome", "TranslatedIndex")]
         [InlineData(typeof(HomeController1), "Index", "TranslatedHome", "TranslatedIndex")]
         [InlineData(typeof(HomeController2), "Index", "TranslatedHome", "Index")]
-        //[InlineData(typeof(HomeController3), "Index", "HomeController3", "Index")]
-        [InlineData(typeof(HomeController4), "Index", "HomeController4", "Index")]
+        [InlineData(typeof(HomeController3), "Index", "TranslatedHome", "TranslatedIndex")]
+        [InlineData(typeof(HomeController4), "Index", "TranslatedHome", "Index")]
         public async Task ProvideRouteAsync_AttributesCombinations_GetsLocalizedRoute(Type originalController, string originalAction,
             string controller, string action)
         {
@@ -73,7 +73,7 @@ namespace AspNetCore.Mvc.Routing.Localization.Tests
         [InlineData(typeof(HomeController1), "Index", "TranslatedHome", "TranslatedIndex")]
         [InlineData(typeof(HomeController2), "Index", "TranslatedHome", "Index")]
         [InlineData(typeof(HomeController3), "Index", "TranslatedHome", "TranslatedIndex")]
-        //[InlineData(typeof(HomeController4), "Index", "TranslatedHome", "Index")]
+        [InlineData(typeof(HomeController4), "Index", "TranslatedHome", "Index")]
         public async Task ProvideRouteAsync_AttributesCombinations_GetsOriginalRoute(Type originalController, string originalAction,
             string controller, string action)
         {
