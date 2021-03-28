@@ -92,7 +92,7 @@ namespace AspNetCore.Mvc.Routing.Localization
                 routeDescriptor.RouteValues.TryGetValue("controller", out var controller);
                 routeDescriptor.RouteValues.TryGetValue("action", out var action);
 
-                //Always add default name
+                // Always add default name
                 foreach (var culture in _supportedCultures)
                 {
                     AddLocalizedRoute(culture.Name, controller, action);
@@ -145,9 +145,9 @@ namespace AspNetCore.Mvc.Routing.Localization
 
                 void AddLocalizedRoute(string cultureName, string controllerName, string actionName)
                 {
-                        localizedRoutes.Add(LocalizedRoute.Create(cultureName,
-                                                   RouteInformation.Create(controller, action),
-                                                   RouteInformation.Create(controllerName, actionName)));
+                    localizedRoutes.Add(LocalizedRoute.Create(cultureName,
+                                               RouteInformation.Create(controller, action),
+                                               RouteInformation.Create(controllerName, actionName)));
                 }
             }
 
@@ -164,9 +164,9 @@ namespace AspNetCore.Mvc.Routing.Localization
                 _routes
                     .FirstOrDefault(s => s.Culture == currentCulture && s.Original?.Action == action && s.Original?.Controller == controller);
 
-           return direction == LocalizationDirection.TranslatedToOriginal
-                        ? (translated(culture) ?? translated(null))?.Original
-                        : (original(culture) ?? original(null))?.Translated;
+            return direction == LocalizationDirection.TranslatedToOriginal
+                          ? (translated(culture) ?? translated(null))?.Original
+                          : (original(culture) ?? original(null))?.Translated;
         }
 
         private static IEnumerable<T> GetMethodsAttribute<T>(ControllerActionDescriptor routeDescriptor) where T : class
