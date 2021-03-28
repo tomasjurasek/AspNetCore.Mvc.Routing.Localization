@@ -21,7 +21,17 @@ Supported combinations:
 
 Register the services into the `IServiceCollection`.
 ```csharp
- services.AddLocalizedRouting();
+var supportedCultures = new[]
+{
+    new CultureInfo("cs-CZ"),
+    new CultureInfo("en-US"),
+};
+services.Configure<RequestLocalizationOptions>(options =>
+{
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+});
+services.AddLocalizedRouting();
 ```
 Implement and register the `DynamicRouteValueTransformer`.
 ```csharp
