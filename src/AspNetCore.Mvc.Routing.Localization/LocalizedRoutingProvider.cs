@@ -111,7 +111,7 @@ namespace AspNetCore.Mvc.Routing.Localization
                     {
                         if (!actionLocalizedRouteAttributes.Any())
                         {
-                            if(!actionRouteAttributes.Any())
+                            if (!actionRouteAttributes.Any())
                             {
                                 foreach (var culture in _supportedCultures)
                                 {
@@ -142,9 +142,32 @@ namespace AspNetCore.Mvc.Routing.Localization
                     {
                         foreach (var controllerRouteAttribute in controllerRouteAttributes)
                         {
-                            foreach (var actionLocalizedRouteAttribute in actionLocalizedRouteAttributes)
+                            if (!actionLocalizedRouteAttributes.Any())
                             {
-                                AddLocalizedRoute(actionLocalizedRouteAttribute.Culture, controllerRouteAttribute.Template, actionLocalizedRouteAttribute.Template);
+                                if (!actionRouteAttributes.Any())
+                                {
+                                    foreach (var culture in _supportedCultures)
+                                    {
+                                        AddLocalizedRoute(culture.Name, controllerRouteAttribute.Template, action);
+                                    }
+                                }
+                                else
+                                {
+                                    foreach (var actionRouteAttribute in actionRouteAttributes)
+                                    {
+                                        foreach (var culture in _supportedCultures)
+                                        {
+                                            AddLocalizedRoute(culture.Name, controllerRouteAttribute.Template, actionRouteAttribute.Template);
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                foreach (var actionLocalizedRouteAttribute in actionLocalizedRouteAttributes)
+                                {
+                                    AddLocalizedRoute(actionLocalizedRouteAttribute.Culture, controllerRouteAttribute.Template, actionLocalizedRouteAttribute.Template);
+                                }
                             }
                         }
                     }
