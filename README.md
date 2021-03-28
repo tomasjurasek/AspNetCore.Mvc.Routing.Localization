@@ -31,7 +31,7 @@ services.Configure<RequestLocalizationOptions>(options =>
     options.SupportedCultures = supportedCultures;
     options.SupportedUICultures = supportedCultures;
 });
- services.AddLocalizedRouting();
+services.AddLocalizedRouting();
 ```
 Implement and register the `DynamicRouteValueTransformer`.
 ```csharp
