@@ -26,6 +26,15 @@
                         </li>
                     </ul>
                 </div>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Languages
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        <localized-route class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index" asp-route-culture="en-US">English</localized-route>
+                        <localized-route class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index" asp-route-culture="cs-CZ">Czech</localized-route>
+                    </div>
+                </div>
             </div>
         </nav>
     </header>

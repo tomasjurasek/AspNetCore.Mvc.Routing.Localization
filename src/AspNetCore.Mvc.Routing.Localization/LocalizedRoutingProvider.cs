@@ -1,9 +1,12 @@
 ﻿using AspNetCore.Mvc.Routing.Localization.Attributes;
 using AspNetCore.Mvc.Routing.Localization.Models;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,10 +24,14 @@ namespace AspNetCore.Mvc.Routing.Localization
         private SemaphoreSlim _semaphore = new SemaphoreSlim(1);
 
         private readonly IControllerActionDescriptorProvider _controllerActionDescriptorProvider;
+        private readonly IList<CultureInfo> _supportedCultures;
 
-        public LocalizedRouteProvider(IControllerActionDescriptorProvider controllerActionDescriptorProvider)
+        public LocalizedRouteProvider(IControllerActionDescriptorProvider controllerActionDescriptorProvider,
+            IOptions<RequestLocalizationOptions> localizationOptions
+            )
         {
             _controllerActionDescriptorProvider = controllerActionDescriptorProvider;
+            _supportedCultures = localizationOptions.Value.SupportedCultures;
         }
 
         /// <summary>
@@ -86,7 +93,10 @@ namespace AspNetCore.Mvc.Routing.Localization
                 routeDescriptor.RouteValues.TryGetValue("action", out var action);
 
                 //Always add default name
-                AddLocalizedRoute(null, controller, action);
+                foreach (var culture in _supportedCultures)
+                {
+                    AddLocalizedRoute(culture.Name, controller, action);
+                }
 
                 var controllerLocalizedRouteAttributes = GetControllersAttribute<LocalizedRouteAttribute>(routeDescriptor)
                     .Distinct(); //Implement IEqualityComparer
@@ -99,7 +109,7 @@ namespace AspNetCore.Mvc.Routing.Localization
                 var actionRouteAttribute = GetMethodsAttribute<RouteAttribute>(routeDescriptor)
                      .FirstOrDefault();
 
-                //Combinations RouteController or OriginalController
+                // Combinations - RouteController or OriginalController
                 if (!controllerLocalizedRouteAttributes.Any())
                 {
                     var controllerRouteAttribute = GetControllersAttribute<RouteAttribute>(routeDescriptor)
@@ -107,7 +117,10 @@ namespace AspNetCore.Mvc.Routing.Localization
 
                     if (controllerRouteAttribute != null || actionRouteAttribute != null)
                     {
-                        AddLocalizedRoute(null, controllerRouteAttribute?.Template ?? controller, actionRouteAttribute?.Template ?? action);
+                        foreach (var culture in _supportedCultures)
+                        {
+                            AddLocalizedRoute(culture.Name, controllerRouteAttribute?.Template ?? controller, actionRouteAttribute?.Template ?? action);
+                        }
                     }
                 }
 
@@ -132,9 +145,9 @@ namespace AspNetCore.Mvc.Routing.Localization
 
                 void AddLocalizedRoute(string cultureName, string controllerName, string actionName)
                 {
-                    localizedRoutes.Add(LocalizedRoute.Create(cultureName,
-                                                RouteInformation.Create(controller, action),
-                                                RouteInformation.Create(controllerName, actionName)));
+                        localizedRoutes.Add(LocalizedRoute.Create(cultureName,
+                                                   RouteInformation.Create(controller, action),
+                                                   RouteInformation.Create(controllerName, actionName)));
                 }
             }
 
@@ -151,7 +164,7 @@ namespace AspNetCore.Mvc.Routing.Localization
                 _routes
                     .FirstOrDefault(s => s.Culture == currentCulture && s.Original?.Action == action && s.Original?.Controller == controller);
 
-            return direction == LocalizationDirection.TranslatedToOriginal
+           return direction == LocalizationDirection.TranslatedToOriginal
                         ? (translated(culture) ?? translated(null))?.Original
                         : (original(culture) ?? original(null))?.Translated;
         }
