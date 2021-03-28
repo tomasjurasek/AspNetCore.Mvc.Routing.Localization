@@ -61,7 +61,7 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllerRoute(name: "default", pattern: "{culture=en-US}/{controller=Home}/{action=Index}/{id?}");
 });
 ```
-Set up the localization middleware.
+Set up the localized routing middlewares.
 ```csharp
 var supportedCultures = new[]
 {
@@ -69,19 +69,7 @@ var supportedCultures = new[]
     new CultureInfo("en-US"),
 };
 
-var options = new RequestLocalizationOptions
-{
-    DefaultRequestCulture = new RequestCulture("en-US"),
-    SupportedCultures = supportedCultures,
-    SupportedUICultures = supportedCultures
-};
-
-options.RequestCultureProviders = new List<IRequestCultureProvider>
-{
-    new RouteDataRequestCultureProvider() { RouteDataStringKey = "culture" }
-};
-
-app.UseRequestLocalization(options);
+app.UseLocalizedRouting("en-US", supportedCultures);
 ```
 
 Register the tag helper from the `AspNetCore.Mvc.Routing.Localization` package into the `_ViewImports.cshtml` file, which offers to you localize your routes in a Views.
