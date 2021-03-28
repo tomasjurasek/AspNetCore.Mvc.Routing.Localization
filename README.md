@@ -12,10 +12,10 @@ Supported combinations:
 | Supported | LocalizedRouteAttribute | LocalizedRouteAttribute |
 | Supported | LocalizedRouteAttribute | RouteAttribute |
 | Supported | LocalizedRouteAttribute | Action |
-| Not Supported | RouteAttribute | LocalizedRouteAttribute |
+| Supported | RouteAttribute | LocalizedRouteAttribute |
 | Supported | RouteAttribute | RouteAttribute |
 | Supported | RouteAttribute | Action |
-| Not Supported | Controller | LocalizedRouteAttribute |
+| Supported | Controller | LocalizedRouteAttribute |
 | Supported | Controller | RouteAttribute |
 | Supported | Controller | Action |
 
