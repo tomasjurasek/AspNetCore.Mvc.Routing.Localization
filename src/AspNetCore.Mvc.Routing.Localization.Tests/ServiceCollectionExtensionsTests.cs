@@ -1,5 +1,4 @@
 ﻿using AspNetCore.Mvc.Routing.Localization.Extensions;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -38,12 +37,7 @@ namespace AspNetCore.Mvc.Routing.Localization.Tests
             };
 
             var serviceProvider = _serviceCollection
-                .Configure<RequestLocalizationOptions>(options =>
-                {
-                    options.SupportedCultures = supportedCultures;
-                    options.SupportedUICultures = supportedCultures;
-                })
-                .AddLocalizedRouting()
+                .AddLocalizedRouting(supportedCultures)
                 .AddSingleton<IActionDescriptorCollectionProvider, FakeActionDescriptorCollectionProvider>()
                 .BuildServiceProvider();
 
