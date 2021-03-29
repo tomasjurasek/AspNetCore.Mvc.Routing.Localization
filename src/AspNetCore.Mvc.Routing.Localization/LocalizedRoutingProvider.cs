@@ -26,6 +26,8 @@ namespace AspNetCore.Mvc.Routing.Localization
         private readonly IControllerActionDescriptorProvider _controllerActionDescriptorProvider;
         private readonly IList<CultureInfo> _supportedCultures;
 
+        IEnumerable<LocalizedRoute> ILocalizedRoutingProvider.Routes => _routes;
+
         public LocalizedRouteProvider(IControllerActionDescriptorProvider controllerActionDescriptorProvider,
             IOptions<RequestLocalizationOptions> localizationOptions)
         {
@@ -174,15 +176,21 @@ namespace AspNetCore.Mvc.Routing.Localization
         {
             Func<string, LocalizedRoute> translated = (currentCulture) =>
                 _routes
-                    .FirstOrDefault(s => s.Culture == currentCulture && s.Translated?.Action == action && s.Translated?.Controller == controller);
+                    .FirstOrDefault(s =>
+                        s.Culture.Equals(currentCulture, StringComparison.OrdinalIgnoreCase) &&
+                        s.Translated.Action.Equals(action, StringComparison.OrdinalIgnoreCase) &&
+                        s.Translated.Controller.Equals(controller, StringComparison.OrdinalIgnoreCase));
 
             Func<string, LocalizedRoute> original = (currentCulture) =>
                 _routes
-                    .FirstOrDefault(s => s.Culture == currentCulture && s.Original?.Action == action && s.Original?.Controller == controller);
+                    .FirstOrDefault(s =>
+                        s.Culture.Equals(currentCulture, StringComparison.OrdinalIgnoreCase) &&
+                        s.Original.Action.Equals(action, StringComparison.OrdinalIgnoreCase) &&
+                        s.Original.Controller.Equals(controller, StringComparison.OrdinalIgnoreCase));
 
             return direction == LocalizationDirection.TranslatedToOriginal
-                          ? (translated(culture) ?? translated(null))?.Original
-                          : (original(culture) ?? original(null))?.Translated;
+                          ? translated(culture).Original
+                          : original(culture).Translated;
         }
 
         private static IEnumerable<T> GetMethodsAttribute<T>(ControllerActionDescriptor routeDescriptor) where T : class
@@ -199,6 +207,11 @@ namespace AspNetCore.Mvc.Routing.Localization
                 .GetCustomAttributes(typeof(T), true)
                 .Select(s => s as T)
                 .Distinct();
+        }
+
+        Task<RouteInformation> ILocalizedRoutingProvider.ProvideRouteAsync(string culture, string controller, string action, LocalizationDirection direction)
+        {
+            throw new NotImplementedException();
         }
     }
 }
