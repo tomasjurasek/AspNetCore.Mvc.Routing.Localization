@@ -208,11 +208,6 @@ namespace AspNetCore.Mvc.Routing.Localization
                 .Select(s => s as T)
                 .Distinct();
         }
-
-        Task<RouteInformation> ILocalizedRoutingProvider.ProvideRouteAsync(string culture, string controller, string action, LocalizationDirection direction)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
 
