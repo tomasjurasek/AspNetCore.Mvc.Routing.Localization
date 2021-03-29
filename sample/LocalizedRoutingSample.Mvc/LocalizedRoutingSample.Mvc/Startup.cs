@@ -22,20 +22,14 @@ namespace LocalizedRoutingSample.Mvc
         {
             services.AddControllersWithViews();
 
-            services.AddLocalizedRouting();
-            services.AddSingleton<LocalizedRoutingTranslationTransformer>();
-
             var supportedCultures = new[]
             {
                 new CultureInfo("cs-CZ"),
                 new CultureInfo("en-US"),
             };
-            services.Configure<RequestLocalizationOptions>(options =>
-            {
-                options.SupportedCultures = supportedCultures;
-                options.SupportedUICultures = supportedCultures;
-            });
 
+            services.AddLocalizedRouting(supportedCultures);
+            services.AddSingleton<LocalizedRoutingTranslationTransformer>();
             services.AddLocalization();
         }
 
