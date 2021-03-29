@@ -26,12 +26,7 @@ var supportedCultures = new[]
     new CultureInfo("cs-CZ"),
     new CultureInfo("en-US"),
 };
-services.Configure<RequestLocalizationOptions>(options =>
-{
-    options.SupportedCultures = supportedCultures;
-    options.SupportedUICultures = supportedCultures;
-});
-services.AddLocalizedRouting();
+services.AddLocalizedRouting(supportedCultures);
 ```
 Implement and register the `DynamicRouteValueTransformer`.
 ```csharp
@@ -68,7 +63,6 @@ var supportedCultures = new[]
     new CultureInfo("cs-CZ"),
     new CultureInfo("en-US"),
 };
-
 app.UseLocalizedRouting("en-US", supportedCultures);
 ```
 
