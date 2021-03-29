@@ -15,6 +15,8 @@ Supported combinations:
 | Supported | RouteAttribute | LocalizedRouteAttribute |
 | Supported | Controller | LocalizedRouteAttribute |
 
+There is also exists an endpoint, which listed all localized routes. The endpoint is `{culture}/LocalizedRoutes/Index`.
+
 ## Setup
 
 > WARNING: We support only the **RouteDataRequestCultureProvider** with the RouteDataStringKey = "culture".
