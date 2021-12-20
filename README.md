@@ -15,7 +15,7 @@ Supported combinations:
 | Supported | RouteAttribute | LocalizedRouteAttribute |
 | Supported | Controller | LocalizedRouteAttribute |
 
-There is also exists an endpoint, which listed all localized routes. The endpoint is `{culture}/LocalizedRoutes/Index`.
+You can see localized routes here - `{culture}/LocalizedRoutes/Index`.
 
 ## Setup
 
